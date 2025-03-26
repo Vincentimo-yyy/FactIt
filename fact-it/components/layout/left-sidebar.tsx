@@ -1,21 +1,21 @@
-"use client"
-import { 
-  Home, 
-  Flame, 
-  LayoutGrid, 
-  Settings, 
-  PlaneTakeoff, 
-  User, 
-  Newspaper, 
-  Gamepad2, 
-  Monitor, 
-  Film, 
-  BookMinus, 
-  Shirt, 
+'use client';
+import {
+  Home,
+  Flame,
+  LayoutGrid,
+  Settings,
+  PlaneTakeoff,
+  User,
+  Newspaper,
+  Gamepad2,
+  Monitor,
+  Film,
+  BookMinus,
+  Shirt,
   PencilLine,
   LogOut,
   CircleHelp,
-} from "lucide-react"
+} from 'lucide-react';
 
 export function LeftSidebar() {
   return (
@@ -44,11 +44,17 @@ export function LeftSidebar() {
           </div>
 
           {/* Additional navigation sections */}
-          <div >
-            <h2 className="mb-2 px-4 text-primary text-[14px] tracking-tight ">Filter by topic:</h2>
+          <div>
+            <h2 className="mb-2 px-4 text-primary text-[14px] tracking-tight ">
+              Filter by topic:
+            </h2>
             <div className="border-t border-b border-[#B2B2B2] space-y-1 ">
-              <input type="search" placeholder="Search..." className="w-full text-[14px] bg-muted h-7 rounded-md mt-2 border border-input pl-3 pr-3 focus:outline-none  " />
-              <div className="overflow-auto max-h-55"> 
+              <input
+                type="search"
+                placeholder="Search..."
+                className="w-full text-[14px] bg-muted h-7 rounded-md mt-2 border border-input pl-3 pr-3 focus:outline-none  "
+              />
+              <div className="overflow-auto max-h-55">
                 <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
                   <PlaneTakeoff className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">Travel</span>
@@ -71,7 +77,9 @@ export function LeftSidebar() {
                 </button>
                 <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
                   <Film className="h-5 w-5 mr-2 stroke-primary" />
-                  <span className="text-[12px] text-primary">Entertainment</span>
+                  <span className="text-[12px] text-primary">
+                    Entertainment
+                  </span>
                 </button>
                 <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
                   <BookMinus className="h-5 w-5 mr-2 stroke-primary" />
@@ -85,7 +93,7 @@ export function LeftSidebar() {
             </div>
           </div>
 
-          <div >
+          <div>
             <div className="mb-2 pb-2 border-b border-[#B2B2B2] justify-center flex items-center px-4 text-lg font-semibold tracking-tight">
               <button className="flex w-full items-center rounded-[20px] px-8 py-2 bg-secondary text-white">
                 <PencilLine className="mr-2 stroke-white" />
@@ -106,6 +114,5 @@ export function LeftSidebar() {
         </div>
       </div>
     </div>
-  )
+  );
 }
-
