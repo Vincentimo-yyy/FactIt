@@ -21,7 +21,10 @@ export function SiteHeader() {
               </div>
             </button>
             <Link href="/" className="flex items-center">
-              <span className="text-xl font-bold text-primary">Factit</span>
+              <div className="text-xl font-bold">
+                <span style={{ color: "#919191" }}>Fact</span>
+                <span style={{ color: "#4F3E9E" }}>It</span>
+              </div>
               <ChevronDown className="ml-1 h-4 w-4" />
             </Link>
           </div>
@@ -29,7 +32,10 @@ export function SiteHeader() {
           {/* Desktop Logo */}
           <div className="hidden md:block">
             <Link href="/" className="flex items-center space-x-2">
-              <span className="text-xl font-bold">Factit</span>
+              <div className="text-xl font-bold">
+                <span style={{ color: "#919191" }}>Fact</span>
+                <span style={{ color: "#4F3E9E" }}>It</span>
+              </div>
             </Link>
           </div>
 
