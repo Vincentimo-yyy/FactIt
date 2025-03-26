@@ -1,22 +1,41 @@
-
-
+"use client";
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <div className="row-span-2">
-        <h1 className="text-4xl font-bold text-center">Factit</h1>
-        <p className="text-center">A simple fact-checking app</p>
-      </div>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <h2 className="text-2xl font-bold">Fact-checking</h2>
-          <p>Factit is a simple fact-checking app that allows you to check the credibility of any information you come across on the internet.</p>
-        </div>
-        <div>
-          <h2 className="text-2xl font-bold">How it works</h2>
-          <p>Factit uses the <a href="https://www.google.com">Google Fact Check API</a> to verify the credibility of information. Simply enter the information you want to fact-check and Factit will return </p>
-        </div>
+    <div className="max-w-3xl mx-auto">
+      {/* Fact Cards */}
+      <div className="space-y-4">
+        {[1, 2, 3, 4, 5].map((item) => (
+          <div key={item} className="p-4 border rounded-lg bg-background">
+            <div className="mb-2 text-sm text-muted-foreground">r/factchecking • 2d • 167k views</div>
+            <h3 className="text-xl font-semibold mb-2">Claim #{item}</h3>
+            <p className="text-muted-foreground mb-4">
+              This is a sample claim that has been fact-checked. The claim states that...
+            </p>
+
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-4">
+                <button className="flex items-center space-x-1 text-sm">
+                  <span>↑</span>
+                  <span>{Math.floor(Math.random() * 500)}</span>
+                </button>
+                <button className="flex items-center space-x-1 text-sm">
+                  <span>↓</span>
+                </button>
+                <button className="flex items-center space-x-1 text-sm">
+                  <span>💬</span>
+                  <span>{Math.floor(Math.random() * 100)}</span>
+                </button>
+              </div>
+              <div>
+                <span className="px-2 py-1 text-xs rounded bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100">
+                  Verified
+                </span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
-  );
+  )
 }
+
