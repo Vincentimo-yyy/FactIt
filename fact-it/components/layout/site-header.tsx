@@ -2,7 +2,16 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Search, User, ChevronDown, Home, TrendingUp, Bell, MessageSquare, X } from 'lucide-react';
+import {
+  Search,
+  User,
+  ChevronDown,
+  Home,
+  TrendingUp,
+  Bell,
+  MessageSquare,
+  X,
+} from 'lucide-react';
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -71,32 +80,38 @@ export function SiteHeader() {
           {/* Icons */}
           <div className="hidden sm:flex items-center gap-4 relative">
             {/* Notifications */}
-            <button 
+            <button
               onClick={() => {
                 setIsNotificationsOpen(!isNotificationsOpen);
-                setIsMessagesOpen(false); // Close Messages when opening Notifications
-              }} 
-               
+                setIsMessagesOpen(false);
+                setIsUserMenuOpen(false);
+              }}
               className={`rounded-full p-2 hover:bg-select cursor-pointer ${isNotificationsOpen ? 'bg-select' : 'bg-secondary'}`}
             >
-              <Bell className={`h-5 w-5 ${isNotificationsOpen ? 'fill-current stroke-secondary' : ' fill-white  stroke-white'}`} />
+              <Bell
+                className={`h-5 w-5 ${isNotificationsOpen ? 'fill-current stroke-secondary' : ' fill-white  stroke-white'}`}
+              />
             </button>
             {isNotificationsOpen && (
               <div className="absolute right-10 top-12 w-60 bg-white border rounded-lg shadow-lg p-3">
-                <p className="text-sm text-muted-foreground">No new notifications</p>
+                <p className="text-sm text-muted-foreground">
+                  No new notifications
+                </p>
               </div>
             )}
 
             {/* Messages */}
-            <button 
+            <button
               onClick={() => {
                 setIsMessagesOpen(!isMessagesOpen);
-                setIsNotificationsOpen(false); // Close Notifications when opening Messages
+                setIsNotificationsOpen(false);
+                setIsUserMenuOpen(false);
               }}
-
               className={`rounded-full p-2 hover:bg-select cursor-pointer ${isMessagesOpen ? 'bg-select' : 'bg-secondary'}`}
             >
-              <MessageSquare className={`h-5 w-5 ${isMessagesOpen ? 'fill-current stroke-secondary' : ' fill-white stroke-white'}`} />
+              <MessageSquare
+                className={`h-5 w-5 ${isMessagesOpen ? 'fill-current stroke-secondary' : ' fill-white stroke-white'}`}
+              />
             </button>
             {isMessagesOpen && (
               <div className="absolute right-2 top-12 w-60 bg-white border rounded-lg shadow-lg p-3">
@@ -106,20 +121,24 @@ export function SiteHeader() {
 
             {/* User Icon */}
             <div className="relative">
-              <button 
+              <button
                 onClick={() => {
                   setIsUserMenuOpen(!isUserMenuOpen);
-                  setIsMessagesOpen(false); // Close Messages
-                  setIsNotificationsOpen(false); // Close Notifications
+                  setIsMessagesOpen(false);
+                  setIsNotificationsOpen(false);
                 }}
                 className={`rounded-full p-2 hover:bg-select cursor-pointer ${isUserMenuOpen ? 'bg-select' : 'bg-secondary'}`}
               >
-                <User className={`h-5 w-5 ${isUserMenuOpen ? 'fill-current stroke-secondary' : 'fill-white stroke-white'}`} />
+                <User
+                  className={`h-5 w-5 ${isUserMenuOpen ? 'fill-current stroke-secondary' : 'fill-white stroke-white'}`}
+                />
               </button>
 
               {isUserMenuOpen && (
                 <div className="absolute right-2 top-12 w-60 bg-white border rounded-lg shadow-lg p-3">
-                  <p className="text-sm text-muted-foreground">User menu placeholder</p>
+                  <p className="text-sm text-muted-foreground">
+                    User menu placeholder
+                  </p>
                 </div>
               )}
             </div>
