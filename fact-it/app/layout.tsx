@@ -1,20 +1,21 @@
-import type React from "react"
-import type { Metadata } from "next"
-import "./globals.css"
-import { SiteHeader } from "@/components/layout/site-header"
-import { MobileNav } from "@/components/layout/mobile-nav"
-import { LeftSidebar } from "@/components/layout/left-sidebar"
-import { RightSidebar } from "@/components/layout/right-sidebar"
+import type React from 'react';
+import type { Metadata } from 'next';
+import './globals.css';
+import { SiteHeader } from '@/components/layout/site-header';
+import { MobileNav } from '@/components/layout/mobile-nav';
+import { LeftSidebar } from '@/components/layout/left-sidebar';
+import { RightSidebar } from '@/components/layout/right-sidebar';
 
 export const metadata: Metadata = {
-  title: "Factit - A simple fact-checking app",
-  description: "Factit is a simple fact-checking app that allows you to check the credibility of information",
-}
+  title: 'Factit - A simple fact-checking app',
+  description:
+    'Factit is a simple fact-checking app that allows you to check the credibility of information',
+};
 
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <html lang="en">
@@ -29,7 +30,9 @@ export default function RootLayout({
               </div>
 
               {/* Main Content */}
-              <main className="flex-1 min-w-0 p-4 md:px-8 overflow-y-auto">{children}</main>
+              <main className="flex-1 min-w-0 p-4 md:px-8 overflow-y-auto">
+                {children}
+              </main>
 
               {/* Right Sidebar - Hidden on mobile */}
               <div className="hidden lg:block lg:w-64 flex-shrink-0">
@@ -41,6 +44,5 @@ export default function RootLayout({
         </div>
       </body>
     </html>
-  )
+  );
 }
-

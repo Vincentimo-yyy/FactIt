@@ -1,11 +1,11 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import Link from "next/link"
-import { Search, User, ChevronDown, Home, TrendingUp } from "lucide-react"
+import { useState } from 'react';
+import Link from 'next/link';
+import { Search, User, ChevronDown, Home, TrendingUp } from 'lucide-react';
 
 export function SiteHeader() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -13,7 +13,10 @@ export function SiteHeader() {
         <div className="flex flex-1 items-center justify-between">
           {/* Mobile Logo and Menu */}
           <div className="flex items-center md:hidden">
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="mr-2 flex items-center">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="mr-2 flex items-center"
+            >
               <div className="flex flex-col space-y-1.5 p-1.5">
                 <span className="h-0.5 w-5 bg-foreground"></span>
                 <span className="h-0.5 w-5 bg-foreground"></span>
@@ -22,8 +25,8 @@ export function SiteHeader() {
             </button>
             <Link href="/" className="flex items-center">
               <div className="text-xl font-bold">
-                <span style={{ color: "#919191" }}>Fact</span>
-                <span style={{ color: "#4F3E9E" }}>It</span>
+                <span style={{ color: '#919191' }}>Fact</span>
+                <span style={{ color: '#4F3E9E' }}>It</span>
               </div>
               <ChevronDown className="ml-1 h-4 w-4" />
             </Link>
@@ -33,8 +36,8 @@ export function SiteHeader() {
           <div className="hidden md:block">
             <Link href="/" className="flex items-center space-x-2">
               <div className="text-xl font-bold">
-                <span style={{ color: "#919191" }}>Fact</span>
-                <span style={{ color: "#4F3E9E" }}>It</span>
+                <span style={{ color: '#919191' }}>Fact</span>
+                <span style={{ color: '#4F3E9E' }}>It</span>
               </div>
             </Link>
           </div>
@@ -71,11 +74,17 @@ export function SiteHeader() {
       {isMenuOpen && (
         <div className="absolute top-14 left-0 w-full bg-background border-b z-50 md:hidden">
           <div className="p-2">
-            <Link href="/" className="flex items-center p-2 rounded-md hover:bg-muted">
+            <Link
+              href="/"
+              className="flex items-center p-2 rounded-md hover:bg-muted"
+            >
               <Home className="mr-2 h-5 w-5" />
               <span>Home</span>
             </Link>
-            <Link href="/popular" className="flex items-center p-2 rounded-md hover:bg-muted">
+            <Link
+              href="/popular"
+              className="flex items-center p-2 rounded-md hover:bg-muted"
+            >
               <TrendingUp className="mr-2 h-5 w-5" />
               <span>Popular</span>
             </Link>
@@ -83,6 +92,5 @@ export function SiteHeader() {
         </div>
       )}
     </header>
-  )
+  );
 }
-

@@ -5,10 +5,13 @@ export default function Home() {
       <div className="space-y-4">
         {[1, 2, 3, 4, 5].map((item) => (
           <div key={item} className="p-4 border rounded-lg bg-background">
-            <div className="mb-2 text-sm text-muted-foreground">r/factchecking • 2d • 167k views</div>
+            <div className="mb-2 text-sm text-muted-foreground">
+              r/factchecking • 2d • 167k views
+            </div>
             <h3 className="text-xl font-semibold mb-2">Claim #{item}</h3>
             <p className="text-muted-foreground mb-4">
-              This is a sample claim that has been fact-checked. The claim states that...
+              This is a sample claim that has been fact-checked. The claim
+              states that...
             </p>
 
             <div className="flex items-center justify-between">
@@ -35,6 +38,5 @@ export default function Home() {
         ))}
       </div>
     </div>
-  )
+  );
 }
-
