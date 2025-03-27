@@ -19,24 +19,24 @@ import {
 
 export function LeftSidebar() {
   return (
-    <div className="hidden md:block fixed top-14 left-0 w-64 h-[calc(100vh-3.5rem)] bg-background shadow-lg">
+    <div className="hidden md:block fixed top-14 left-0 w-80 h-[calc(100vh-3.5rem)] bg-background shadow-lg">
       <div className="flex h-full flex-col">
         <div className="space-y-2 px-3">
           <div className="py-6">
             <div className="space-y-1">
-              <button className="flex w-full items-center rounded-md px-4 py-2 bg-select ">
+              <button className="flex w-65 items-center rounded-md px-4 mx-4 py-2 bg-select ">
                 <Home className="h-5 w-5 mr-2 stroke-secondary" />
                 <span className="text-secondary">Home</span>
               </button>
-              <button className="flex w-full items-center rounded-md  px-4 py-2 hover:bg-muted">
+              <button className="flex w-65 items-center rounded-md  px-4 mx-4  py-2 hover:bg-muted">
                 <Flame className="h-5 w-5 mr-2 stroke-primary" />
                 <span className="text-primary">Popular</span>
               </button>
-              <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+              <button className="flex w-65 items-center rounded-md px-4 mx-4  py-2 hover:bg-muted">
                 <LayoutGrid className="h-5 w-5 mr-2 stroke-primary" />
                 <span className="text-primary">Explore</span>
               </button>
-              <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+              <button className="flex w-65 items-center rounded-md px-4 mx-4  py-2 hover:bg-muted">
                 <Settings className="h-5 w-5 mr-2 stroke-primary" />
                 <span className="text-primary">Settings</span>
               </button>
@@ -45,47 +45,47 @@ export function LeftSidebar() {
 
           {/* Additional navigation sections */}
           <div>
-            <h2 className="mb-2 px-4 text-primary text-[14px] tracking-tight ">
+            <h2 className="mb-2 px-4 mx-4  text-primary text-[14px] tracking-tight ">
               Filter by topic:
             </h2>
             <div className="border-t border-b border-[#B2B2B2] space-y-1 ">
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-full text-[14px] bg-muted h-7 rounded-md mt-2 border border-input pl-3 pr-3 focus:outline-none  "
+                className="w-65 text-[14px] bg-muted h-7 rounded-md mt-2 mx-4 border border-input pl-3 pr-3 focus:outline-none  "
               />
-              <div className="overflow-auto max-h-55">
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+              <div className="overflow-y-auto overflow-x-clip max-h-55">
+                <button className="flex w-65 items-center rounded-md pl-4 ml-4 py-2 hover:bg-muted">
                   <PlaneTakeoff className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">Travel</span>
                 </button>
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+                <button className="flex w-65 items-center rounded-md pl-4 ml-4 py-2 hover:bg-muted">
                   <User className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">Personal</span>
                 </button>
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+                <button className="flex w-65 items-center rounded-md pl-4 ml-4 py-2 hover:bg-muted">
                   <Newspaper className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">News</span>
                 </button>
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+                <button className="flex w-65 items-center rounded-md pl-4 ml-4 py-2 hover:bg-muted">
                   <Gamepad2 className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">Gaming</span>
                 </button>
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+                <button className="flex w-65 items-center rounded-md pl-4 ml-4 py-2 hover:bg-muted">
                   <Monitor className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">Technology</span>
                 </button>
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+                <button className="flex w-65 items-center rounded-md pl-4 ml-4 py-2 hover:bg-muted">
                   <Film className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">
                     Entertainment
                   </span>
                 </button>
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+                <button className="flex w-65 items-center rounded-md pl-4 ml-4 py-2 hover:bg-muted">
                   <BookMinus className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">Education</span>
                 </button>
-                <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+                <button className="flex w-65 items-center rounded-md pl-4 mx-4 py-2 hover:bg-muted">
                   <Shirt className="h-5 w-5 mr-2 stroke-primary" />
                   <span className="text-[12px] text-primary">Fashion</span>
                 </button>
@@ -94,18 +94,18 @@ export function LeftSidebar() {
           </div>
 
           <div>
-            <div className="mb-2 pb-2 border-b border-[#B2B2B2] justify-center flex items-center px-4 text-lg font-semibold tracking-tight">
-              <button className="flex w-full items-center rounded-[20px] px-8 py-2 bg-secondary text-white">
+            <div className="mb-2 pb-2 border-b border-[#B2B2B2] justify-center flex items-center px-4 mx-4  text-lg font-semibold tracking-tight">
+              <button className="flex w-65 items-center rounded-[20px] px-8 py-2 bg-secondary text-white">
                 <PencilLine className="mr-2 stroke-white" />
                 <span>Create Post</span>
               </button>
             </div>
             <div className="space-y-1">
-              <button className="flex w-full items-center rounded-md px-4 py-2 hover:bg-muted">
+              <button className="flex w-65 items-center rounded-md px-4 mx-4  py-2 hover:bg-muted">
                 <LogOut className="h-5 w-5 mr-2 stroke-primary" />
                 <span className="text-primary">Logout</span>
               </button>
-              <button className="flex items-center rounded-md px-3 py-2 hover:bg-muted w-full">
+              <button className="flex items-center rounded-md px-3 mx-4 py-2 hover:bg-muted w-65">
                 <CircleHelp className="h-7 w-7 mr-2 text-[#4F3E9E] stroke-white fill-[#4F3E9E]" />
                 <span className="text-primary">Help</span>
               </button>
