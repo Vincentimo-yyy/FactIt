@@ -19,7 +19,7 @@ import {
 
 export function LeftSidebar() {
   return (
-    <div className="hidden md:block fixed top-14 left-0 w-64 h-[calc(100vh-3.5rem)] bg-background border-r">
+    <div className="hidden md:block fixed top-14 left-0 w-64 h-[calc(100vh-3.5rem)] bg-background shadow-lg">
       <div className="flex h-full flex-col">
         <div className="space-y-2 px-3">
           <div className="py-6">
@@ -50,7 +50,7 @@ export function LeftSidebar() {
             </h2>
             <div className="border-t border-b border-[#B2B2B2] space-y-1 ">
               <input
-                type="search"
+                type="text"
                 placeholder="Search..."
                 className="w-full text-[14px] bg-muted h-7 rounded-md mt-2 border border-input pl-3 pr-3 focus:outline-none  "
               />
