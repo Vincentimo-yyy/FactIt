@@ -91,11 +91,11 @@
   .hover\:bg-muted:hover {
     background-color: var(--muted);
   }
-  
+
   .hover\:bg-select:hover {
     background-color: var(--select);
   }
-  
+
   .hover\:bg-primary-foreground:hover {
     background-color: var(--primary-foreground);
   }
