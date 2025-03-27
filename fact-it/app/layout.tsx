@@ -25,7 +25,7 @@ export default function RootLayout({
           <div className="flex-1 pt-14 pb-14 md:pb-0">
             <div className="flex flex-col md:flex-row w-full">
               {/* Left Sidebar - Hidden on mobile */}
-              <div className="hidden md:block md:w-64 flex-shrink-0">
+              <div className="hidden md:block md:w-72 flex-shrink-0">
                 <LeftSidebar />
               </div>
 
@@ -35,7 +35,7 @@ export default function RootLayout({
               </main>
 
               {/* Right Sidebar - Hidden on mobile */}
-              <div className="hidden lg:block lg:w-64 flex-shrink-0">
+              <div className="hidden lg:block lg:w-72 flex-shrink-0">
                 <RightSidebar />
               </div>
             </div>
