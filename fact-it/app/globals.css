@@ -6,7 +6,7 @@
   --muted: #efecff;
   --muted-foreground: #737373;
   --primary: #919191;
-  --primary-foreground: #4f3e9e;
+  --primary-foreground: #eaeaea;
   --secondary: #4f3e9e;
   --secondary-foreground: #eaeaea;
   --border: #e5e5e5;
@@ -45,6 +45,10 @@ body {
   }
 
   .hover\:bg-primary-foreground:hover {
+    background-color: var(--primary-foreground);
+  }
+
+  .bg-primary-foreground {
     background-color: var(--primary-foreground);
   }
 
