@@ -1,4 +1,7 @@
+'use client';
+
 import { FactCard } from '@/components/fact-card';
+import FloatingChat from '@/components/floatingchat';
 
 export default function Home() {
   const factCards = [
@@ -95,6 +98,11 @@ export default function Home() {
         {factCards.map((fact, index) => (
           <FactCard key={index} {...fact} />
         ))}
+      </div>
+
+      <div>
+        <h1 className="text-center text-2xl font-bold">Main Page</h1>
+        <FloatingChat />
       </div>
     </div>
   );

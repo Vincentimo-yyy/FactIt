@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import {
   Search,
   User,
@@ -12,6 +13,7 @@ import {
   MessageSquare,
   X,
 } from 'lucide-react';
+import { useChat } from "@/components/chatcontext";
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -19,6 +21,27 @@ export function SiteHeader() {
   const [isMessagesOpen, setIsMessagesOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
+
+  const { openChat } = useChat(); // Import openChat from the context
+
+  // Dummy chat example - Add more messages as needed
+  const message = {
+    sender: "John Doe",
+    senderPhoto: "/path/to/profile.jpg",
+    lastMessage: "Hey there! How's it going?",
+  };
+
+  const handleOpenChat = () => {
+    openChat({
+      id: "123",
+      name: message.sender,
+      messages: [
+        { sender: "John", text: "Hey there!" },
+        { sender: "me", text: "Hello!" },
+      ],
+      isMinimized: false
+    });
+  };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -114,8 +137,28 @@ export function SiteHeader() {
               />
             </button>
             {isMessagesOpen && (
-              <div className="absolute right-2 top-12 w-60 bg-white border rounded-lg shadow-lg p-3">
-                <p className="text-sm text-muted-foreground">No new messages</p>
+              <div className="absolute right-2 top-10 w-85 bg-white border rounded-lg shadow-lg p-3">
+                <button
+                  onClick={() => {
+                    handleOpenChat(); // Open floating chat when a message is clicked
+                    setIsMessagesOpen(false); // Close the message placeholder
+                  }}
+                  className="w-full text-left flex items-center space-x-2 hover:bg-muted p-2 rounded-lg transition"
+                >
+                  {/* Sender's Profile Picture - Using Next.js Image */}
+                  <Image
+                    src={message.senderPhoto}
+                    alt={message.sender}
+                    width={40} // Set width and height
+                    height={40}
+                    className="w-10 h-10 rounded-full object-cover border-1"
+                  />
+                  {/* Sender's Name and Last Message */}
+                  <div>
+                    <p className="font-semibold">{message.sender}</p>
+                    <p className="text-sm text-muted-foreground">{message.lastMessage}</p>
+                  </div>
+                </button>
               </div>
             )}
 
