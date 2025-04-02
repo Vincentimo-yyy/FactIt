@@ -6,7 +6,7 @@
   --muted: #efecff;
   --muted-foreground: #737373;
   --primary: #919191;
-  --primary-foreground: #4f3e9e;
+  --primary-foreground: #eaeaea;
   --secondary: #4f3e9e;
   --secondary-foreground: #eaeaea;
   --border: #e5e5e5;
@@ -50,6 +50,10 @@ body {
 
   .hover\:text-secondary:hover {
     color: var(--secondary);
+  }
+
+  .bg-primary-foreground {
+    background-color: var(--primary-foreground);
   }
 
   .stroke-primary {
@@ -103,4 +107,5 @@ body {
   .border-input {
     border-color: var(--input);
   }
+}
 }
