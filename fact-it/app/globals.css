@@ -48,6 +48,10 @@ body {
     background-color: var(--primary-foreground);
   }
 
+  .hover\:text-secondary:hover {
+    color: var(--secondary);
+  }
+
   .stroke-primary {
     stroke: var(--primary);
   }
