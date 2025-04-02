@@ -18,7 +18,7 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 
-export default function Home() {
+export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] =
     useState('Select a Community');
 

@@ -89,7 +89,7 @@ export function SiteHeader() {
               className={`rounded-full p-2 hover:bg-select cursor-pointer ${isNotificationsOpen ? 'bg-select' : 'bg-secondary'}`}
             >
               <Bell
-                className={`h-5 w-5 ${isNotificationsOpen ? 'fill-current stroke-secondary' : ' fill-white  stroke-white'}`}
+                className={`h-5 w-5 ${isNotificationsOpen ? 'fill-secondary stroke-secondary' : ' fill-white  stroke-white'}`}
               />
             </button>
             {isNotificationsOpen && (
@@ -110,7 +110,7 @@ export function SiteHeader() {
               className={`rounded-full p-2 hover:bg-select cursor-pointer ${isMessagesOpen ? 'bg-select' : 'bg-secondary'}`}
             >
               <MessageSquare
-                className={`h-5 w-5 ${isMessagesOpen ? 'fill-current stroke-secondary' : ' fill-white stroke-white'}`}
+                className={`h-5 w-5 ${isMessagesOpen ? 'fill-secondary stroke-secondary' : ' fill-white stroke-white'}`}
               />
             </button>
             {isMessagesOpen && (
@@ -130,7 +130,7 @@ export function SiteHeader() {
                 className={`rounded-full p-2 hover:bg-select cursor-pointer ${isUserMenuOpen ? 'bg-select' : 'bg-secondary'}`}
               >
                 <User
-                  className={`h-5 w-5 ${isUserMenuOpen ? 'fill-current stroke-secondary' : 'fill-white stroke-white'}`}
+                  className={`h-5 w-5 ${isUserMenuOpen ? 'fill-secondary stroke-secondary' : 'fill-white stroke-white'}`}
                 />
               </button>
 

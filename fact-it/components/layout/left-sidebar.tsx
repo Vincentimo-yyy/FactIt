@@ -16,30 +16,61 @@ import {
   LogOut,
   CircleHelp,
 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
+
+import { useRouter } from 'next/navigation';
 
 export function LeftSidebar() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const [activeRoute, setActiveRoute] = useState('/');
+
+  // Update active route when pathname changes
+  useEffect(() => {
+    setActiveRoute(pathname);
+  }, [pathname]);
+
+  const navItems = [
+    { path: '/', label: 'Home', icon: Home },
+    { path: '/popular', label: 'Popular', icon: Flame },
+    { path: '/explore', label: 'Explore', icon: LayoutGrid },
+    { path: '/settings', label: 'Settings', icon: Settings },
+  ];
+
+  const handleNavigation = (path: string) => {
+    setActiveRoute(path);
+    router.push(path);
+  };
   return (
     <div className="hidden md:block fixed top-14 left-0 w-80 h-[calc(100vh-3.5rem)] bg-background shadow-lg">
       <div className="flex h-full flex-col">
         <div className="space-y-2 px-3">
           <div className="py-6">
             <div className="space-y-1">
-              <button className="flex w-65 items-center rounded-md px-4 mx-4 py-2 bg-select ">
-                <Home className="h-5 w-5 mr-2 stroke-secondary" />
-                <span className="text-secondary">Home</span>
-              </button>
-              <button className="flex w-65 items-center rounded-md  px-4 mx-4  py-2 hover:bg-muted">
-                <Flame className="h-5 w-5 mr-2 stroke-primary" />
-                <span className="text-primary">Popular</span>
-              </button>
-              <button className="flex w-65 items-center rounded-md px-4 mx-4  py-2 hover:bg-muted">
-                <LayoutGrid className="h-5 w-5 mr-2 stroke-primary" />
-                <span className="text-primary">Explore</span>
-              </button>
-              <button className="flex w-65 items-center rounded-md px-4 mx-4  py-2 hover:bg-muted">
-                <Settings className="h-5 w-5 mr-2 stroke-primary" />
-                <span className="text-primary">Settings</span>
-              </button>
+              {navItems.map((item) => {
+                const isActive = activeRoute === item.path;
+                const Icon = item.icon;
+
+                return (
+                  <button
+                    key={item.path}
+                    onClick={() => handleNavigation(item.path)}
+                    className={`flex w-65 items-center rounded-md px-4 mx-4 py-2 ${
+                      isActive ? 'bg-select' : 'hover:bg-muted'
+                    }`}
+                  >
+                    <Icon
+                      className={`h-5 w-5 mr-2 ${isActive ? 'stroke-secondary' : 'stroke-primary'}`}
+                    />
+                    <span
+                      className={isActive ? 'text-secondary' : 'text-primary'}
+                    >
+                      {item.label}
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
 
@@ -95,7 +126,10 @@ export function LeftSidebar() {
 
           <div>
             <div className="mb-2 pb-2 border-b border-[#B2B2B2] justify-center flex items-center px-4 mx-4  text-lg font-semibold tracking-tight">
-              <button className="flex w-65 items-center rounded-[20px] px-8 py-2 bg-secondary text-white">
+              <button
+                onClick={() => router.push('/createapost')}
+                className="flex w-65 items-center rounded-[20px] px-8 py-2 bg-secondary text-white hover:bg-select"
+              >
                 <PencilLine className="mr-2 stroke-white" />
                 <span>Create Post</span>
               </button>

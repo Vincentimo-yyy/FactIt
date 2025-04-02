@@ -92,7 +92,7 @@ export function FactCard({
               <div className="flex items-center">
                 <div className="relative h-10 w-10 mr-3">
                   <Image
-                    src={user.avatar || '/placeholder.svg'}
+                    src="/Default_pfp.svg"
                     alt={user.name}
                     fill
                     className="rounded-full object-cover"
@@ -235,33 +235,35 @@ export function FactCard({
           {/* Interaction buttons */}
           <div className="flex items-center text-sm text-gray-500 justify-between">
             <div className="flex items-center space-x-2">
-              <div className="flex items-center space-x-4 bg-primary-foreground p-2 px-3 rounded-full mr-2">
+              <div className="flex items-center space-x-4 bg-primary-foreground p-1  rounded-full mr-2">
                 <button
-                  className={cn(
-                    'flex items-center mr-1',
-                    upvoted && 'text-[#4F3E9E]',
-                  )}
+                  className={cn('flex items-center mr-1', upvoted)}
                   onClick={handleUpvote}
                 >
-                  <Flag className="h-5 w-5 mr-1 scale-x-[-1] stroke-green-600 fill-green-600" />
-                  <span>{upvoteCount}</span>
+                  <div className="flex items-center justify-center h-8 w-8 rounded-2xl group hover:bg-[#efecff]">
+                    <Flag
+                      className={`h-5 w-5 mr-1 scale-x-[-1] group-hover:stroke-green-600 ${upvoted ? 'fill-green-600 stroke-green-600' : ''} `}
+                    />
+                  </div>
+
+                  <span>{upvoteCount - downvoteCount}</span>
                 </button>
                 <button
-                  className={cn(
-                    'flex items-center',
-                    downvoted && 'text-[#4F3E9E]',
-                  )}
+                  className={cn('flex items-center', downvoted && 'fill-red')}
                   onClick={handleDownvote}
                 >
-                  <Flag className="h-5 w-5 stroke-red-600 fill-red-600" />
-                  <span>{downvoteCount}</span>
+                  <div className="flex items-center justify-center h-8 w-8 rounded-2xl group hover:bg-[#efecff]">
+                    <Flag
+                      className={`h-5 w-5 group-hover:stroke-red-600 ${downvoted ? 'fill-red-600 stroke-red-600' : ''}`}
+                    />
+                  </div>
                 </button>
               </div>
 
-              <button className="flex items-center mr-2 bg-primary-foreground p-2 rounded-full">
+              <button className="flex items-center mr-2 bg-primary-foreground p-2 rounded-full hover:bg-[#efecff]">
                 <MessagesSquare className="h-5 w-5 mr-1" />
               </button>
-              <button className="flex items-center bg-primary-foreground p-2 rounded-full mr-2">
+              <button className="flex items-center bg-primary-foreground p-2 rounded-full mr-2 hover:bg-[#efecff]">
                 <Share2 className="h-4 w-4 mr-1" />
               </button>
             </div>
