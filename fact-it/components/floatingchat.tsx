@@ -1,16 +1,17 @@
-import { useChat } from "./chatcontext";
-import { X, Minus, Send } from "lucide-react";
-import Image from "next/image";
-import { useState } from "react";
+import { useChat } from './chatcontext';
+import { X, Minus, Send } from 'lucide-react';
+import Image from 'next/image';
+import { useState } from 'react';
 
 const FloatingChat = () => {
-  const { openChats, minimizedChats, closeChat, minimizeChat, restoreChat } = useChat();
-  const [message, setMessage] = useState<string>("");
+  const { openChats, minimizedChats, closeChat, minimizeChat, restoreChat } =
+    useChat();
+  const [message, setMessage] = useState<string>('');
 
   const handleSendMessage = (chatId: string) => {
     if (!message.trim()) return;
     console.log(`Sending message to chat ID ${chatId}:`, message);
-    setMessage("");
+    setMessage('');
   };
 
   return (
@@ -19,7 +20,7 @@ const FloatingChat = () => {
       {openChats.map((chat) => (
         <div
           key={chat.id}
-          className={`w-80 bg-white shadow-lg rounded-lg border ${chat.isMinimized ? "hidden" : ""}`}
+          className={`w-80 bg-white shadow-lg rounded-lg border ${chat.isMinimized ? 'hidden' : ''}`}
         >
           <div className="flex justify-between items-center bg-secondary text-white p-2 rounded-t-lg">
             <span>{chat.name}</span>
@@ -36,12 +37,12 @@ const FloatingChat = () => {
             {chat.messages.map((msg, index) => (
               <div
                 key={index}
-                className={`mb-4 flex ${msg.sender === "me" ? "justify-end" : "justify-start"}`}
+                className={`mb-4 flex ${msg.sender === 'me' ? 'justify-end' : 'justify-start'}`}
               >
                 {/* Profile photo of the sender */}
-                {msg.sender !== "me" && (
+                {msg.sender !== 'me' && (
                   <Image
-                    src="/path/to/profile.jpg"
+                    src="/Default_pfp.svg"
                     alt={msg.sender}
                     className="w-8 h-8 rounded-full border-1"
                     width={32} // added width and height for better optimization
@@ -50,19 +51,19 @@ const FloatingChat = () => {
                 )}
                 {/* Message content */}
                 <div
-                  className={`flex flex-col ${msg.sender === "me" ? "items-end" : "items-start"}`}
+                  className={`flex flex-col ${msg.sender === 'me' ? 'items-end' : 'items-start'}`}
                 >
                   <p
                     className={`text-[14px] p-2 ml-2 mr-2 rounded-3xl ${
-                      msg.sender === "me" ? "bg-blue-200" : "bg-gray-200"
+                      msg.sender === 'me' ? 'bg-blue-200' : 'bg-gray-200'
                     }`}
                   >
                     {msg.text}
                   </p>
                 </div>
-                {msg.sender === "me" && (
+                {msg.sender === 'me' && (
                   <Image
-                    src="/path/to/profile.jpg"
+                    src="/Default_pfp.svg"
                     alt={msg.sender}
                     className="w-8 h-8 rounded-full border-1"
                     width={32}
@@ -80,7 +81,10 @@ const FloatingChat = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
-            <button onClick={() => handleSendMessage(chat.id)} disabled={!message.trim()}>
+            <button
+              onClick={() => handleSendMessage(chat.id)}
+              disabled={!message.trim()}
+            >
               <Send size={20} className="text-secondary" />
             </button>
           </div>

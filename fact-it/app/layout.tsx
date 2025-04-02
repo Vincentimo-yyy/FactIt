@@ -5,8 +5,9 @@ import { SiteHeader } from '@/components/layout/site-header';
 import { MobileNav } from '@/components/layout/mobile-nav';
 import { LeftSidebar } from '@/components/layout/left-sidebar';
 import { RightSidebar } from '@/components/layout/right-sidebar';
-import { ChatProvider } from "@/components/chatcontext"; // Ensure the correct import path for your ChatContext
-
+import { ChatProvider } from '@/components/chatcontext';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: 'Factit - A simple fact-checking app',
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-arial antialiased">
-        <ChatProvider>  {/* Wrap your layout content with ChatProvider */}
+        <ChatProvider>
+          {' '}
+          {/* Wrap your layout content with ChatProvider */}
           <div className="flex min-h-screen flex-col">
             <SiteHeader />
             <div className="flex-1 pt-14 pb-14 md:pb-0">
@@ -35,6 +38,8 @@ export default function RootLayout({
                 {/* Main Content */}
                 <main className="flex-1 min-w-0 p-4 md:px-8 overflow-y-auto">
                   {children}
+                  <SpeedInsights />
+                  <Analytics />
                 </main>
 
                 {/* Right Sidebar - Hidden on mobile */}
@@ -45,7 +50,8 @@ export default function RootLayout({
             </div>
             <MobileNav />
           </div>
-        </ChatProvider> {/* End of ChatProvider */}
+        </ChatProvider>{' '}
+        {/* End of ChatProvider */}
       </body>
     </html>
   );

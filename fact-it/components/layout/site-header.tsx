@@ -13,7 +13,7 @@ import {
   MessageSquare,
   X,
 } from 'lucide-react';
-import { useChat } from "@/components/chatcontext";
+import { useChat } from '@/components/chatcontext';
 
 export function SiteHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -26,20 +26,20 @@ export function SiteHeader() {
 
   // Dummy chat example - Add more messages as needed
   const message = {
-    sender: "John Doe",
-    senderPhoto: "/path/to/profile.jpg",
+    sender: 'John Doe',
+    senderPhoto: '/Default_pfp.svg',
     lastMessage: "Hey there! How's it going?",
   };
 
   const handleOpenChat = () => {
     openChat({
-      id: "123",
+      id: '123',
       name: message.sender,
       messages: [
-        { sender: "John", text: "Hey there!" },
-        { sender: "me", text: "Hello!" },
+        { sender: 'John', text: 'Hey there!' },
+        { sender: 'me', text: 'Hello!' },
       ],
-      isMinimized: false
+      isMinimized: false,
     });
   };
 
@@ -156,7 +156,9 @@ export function SiteHeader() {
                   {/* Sender's Name and Last Message */}
                   <div>
                     <p className="font-semibold">{message.sender}</p>
-                    <p className="text-sm text-muted-foreground">{message.lastMessage}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {message.lastMessage}
+                    </p>
                   </div>
                 </button>
               </div>

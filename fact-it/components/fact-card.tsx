@@ -143,7 +143,7 @@ export function FactCard({
                 ))}
               </div>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center mb-4">
               <Flag className="h-5 w-5 mr-1 scale-x-[-1] stroke-green-600 fill-green-600" />
               <div
                 className={cn(

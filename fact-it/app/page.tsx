@@ -101,7 +101,6 @@ export default function Home() {
       </div>
 
       <div>
-        <h1 className="text-center text-2xl font-bold">Main Page</h1>
         <FloatingChat />
       </div>
     </div>
