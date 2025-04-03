@@ -10,8 +10,8 @@ interface PostPageProps {
   };
 }
 
-export default function PostPage({ params }: PostPageProps) {
-  const { id } = params;
+export default async function PostPage({ params }: PostPageProps) {
+  const { id } = await params;
   const post = getPostCardById(id);
 
   if (!post) {
