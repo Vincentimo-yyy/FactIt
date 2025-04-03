@@ -5,48 +5,24 @@ import { useState } from 'react';
 import { ChevronDown, MessagesSquare, Share2, Flag } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import type { PostCard } from '@/lib/data';
+import { useRouter } from 'next/navigation';
 
-type Reference = {
-  id: number;
-  title: string;
-  url: string;
-};
+interface PostCardProps {
+  post: PostCard;
+}
 
-type FactCardProps = {
-  user: {
-    name: string;
-    avatar: string;
-    verified?: boolean;
-  };
-  tags: string[];
-  credibilityScore: number;
-  headline: string;
-  description: string;
-  references: Reference[];
-  stats: {
-    upvotes: number;
-    downvotes: number;
-    comments: number;
-    shares: number;
-  };
-  timestamp: string;
-};
-
-export function FactCard({
-  user,
-  tags,
-  credibilityScore,
-  headline,
-  description,
-  references,
-  stats,
-  timestamp,
-}: FactCardProps) {
+export function FactCard({ post }: PostCardProps) {
+  const router = useRouter();
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
-  const [upvoteCount, setUpvoteCount] = useState(stats.upvotes);
-  const [downvoteCount, setDownvoteCount] = useState(stats.downvotes || 0);
+  const [upvoteCount, setUpvoteCount] = useState(post.stats.upvotes);
+  const [downvoteCount, setDownvoteCount] = useState(post.stats.downvotes || 0);
   const [showReferences, setShowReferences] = useState(false);
+
+  const handleCommentsClick = () => {
+    router.push(`/post/${post.id}`);
+  };
 
   const handleUpvote = () => {
     if (upvoted) {
@@ -93,11 +69,11 @@ export function FactCard({
                 <div className="relative h-10 w-10 mr-3">
                   <Image
                     src="/Default_pfp.svg"
-                    alt={user.name}
+                    alt={post.user.name}
                     fill
                     className="rounded-full object-cover"
                   />
-                  {user.verified && (
+                  {post.user.verified && (
                     <div className="absolute -bottom-1 -right-1 bg-[#4F3E9E] rounded-full p-0.5">
                       <svg
                         width="12"
@@ -118,14 +94,14 @@ export function FactCard({
                   )}
                 </div>
                 <div>
-                  <div className="font-semibold">{user.name}</div>
+                  <div className="font-semibold">{post.user.name}</div>
                   <div className="text-xs text-muted-foreground">
-                    {timestamp}
+                    {post.timestamp}
                   </div>
                 </div>
               </div>
               <div className="flex space-x-1 mt-1 ml-12">
-                {tags.map((tag, index) => (
+                {post.tags.map((tag, index) => (
                   <span
                     key={index}
                     className={cn(
@@ -148,10 +124,10 @@ export function FactCard({
               <div
                 className={cn(
                   'text-white text-xs font-medium px-2 py-1 rounded-full',
-                  getScoreColor(credibilityScore),
+                  getScoreColor(post.credibilityScore),
                 )}
               >
-                {credibilityScore}%
+                {post.credibilityScore}%
               </div>
               <button className="ml-2 text-gray-400 hover:text-gray-600">
                 <svg
@@ -171,8 +147,8 @@ export function FactCard({
 
           {/* Content */}
           <div className="mb-3">
-            <h2 className="text-xl font-bold mb-2">{headline}</h2>
-            <p className="text-sm">{description}</p>
+            <h2 className="text-xl font-bold mb-2">{post.headline}</h2>
+            <p className="text-sm">{post.description}</p>
           </div>
 
           {/* References */}
@@ -182,7 +158,7 @@ export function FactCard({
               onClick={() => setShowReferences(!showReferences)}
             >
               <span className="text-sm font-medium text-gray-500">
-                References {references.length}
+                References {post.references.length}
               </span>
               <ChevronDown
                 className={cn(
@@ -194,7 +170,7 @@ export function FactCard({
 
             {showReferences && (
               <div className="mt-2 space-y-2">
-                {references.map((reference) => (
+                {post.references.map((reference) => (
                   <div key={reference.id} className="text-xs">
                     <div className="flex items-center mb-1">
                       <span className="text-gray-500">
@@ -260,7 +236,10 @@ export function FactCard({
                 </button>
               </div>
 
-              <button className="flex items-center mr-2 bg-primary-foreground p-2 rounded-full hover:bg-[#efecff]">
+              <button
+                onClick={handleCommentsClick}
+                className="flex items-center mr-2 bg-primary-foreground p-2 rounded-full hover:bg-[#efecff]"
+              >
                 <MessagesSquare className="h-5 w-5 mr-1" />
               </button>
               <button className="flex items-center bg-primary-foreground p-2 rounded-full mr-2 hover:bg-[#efecff]">
@@ -269,8 +248,8 @@ export function FactCard({
             </div>
 
             <div className="flex items-center space-x-2">
-              <span>{stats.comments} comments</span>
-              <span>{stats.shares} shares</span>
+              <span>{post.stats.comments} comments</span>
+              <span>{post.stats.shares} shares</span>
             </div>
           </div>
         </div>
