@@ -4,13 +4,7 @@ import Image from 'next/image';
 import { Flag, MessageSquare, Share2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface PostPageProps {
-  params: {
-    id: string;
-  };
-}
-
-export default async function PostPage({ params }: PostPageProps) {
+export default async function PostPage({ params }: { params: { id: string } }) {
   const { id } = params;
 
   const post = await getPostCardById(id);
