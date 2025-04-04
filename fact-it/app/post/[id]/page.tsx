@@ -1,3 +1,4 @@
+'use client';
 import { getPostCardById } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
@@ -11,9 +12,9 @@ type PostPageProps = {
 };
 
 // ⬇ No need to await params
-export default async function PostPage({ params }: PostPageProps) {
+export default function PostPage({ params }: PostPageProps) {
   const { id } = params; // Treat params as a plain object
-  const post = await getPostCardById(id);
+  const post = getPostCardById(id);
 
   if (!post) {
     return (
