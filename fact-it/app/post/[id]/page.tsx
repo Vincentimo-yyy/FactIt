@@ -1,4 +1,3 @@
-'use client';
 import { getPostCardById } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
@@ -6,15 +5,13 @@ import { Flag, MessageSquare, Share2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 type PostPageProps = {
-  params: {
-    id: string;
-  };
+  params: Awaited<{ id: string }>;
 };
 
 // ⬇ No need to await params
-export default function PostPage({ params }: PostPageProps) {
+export default async function PostPage({ params }: PostPageProps) {
   const { id } = params; // Treat params as a plain object
-  const post = getPostCardById(id);
+  const post = await getPostCardById(id);
 
   if (!post) {
     return (
