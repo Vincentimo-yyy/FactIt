@@ -12,7 +12,7 @@ type PostPageProps = {
 
 // ⬇ Force params to be a normal object, NOT a Promise
 export default async function PostPage({ params }: PostPageProps) {
-  const { id } = params;
+  const { id } = await params;
   const post = await getPostCardById(id);
 
   if (!post) {
@@ -193,90 +193,93 @@ export default async function PostPage({ params }: PostPageProps) {
         <h2 className="text-xl font-semibold mb-4">Comments</h2>
 
         {post.comments && post.comments.length > 0 ? (
-          post.comments.map((comment) => (
-            <Card key={comment.id} className="mb-3">
-              <CardContent className="p-4">
-                <div className="flex items-start">
-                  <div className="relative h-8 w-8 mr-3 mt-1">
-                    <Image
-                      src={'/Default_pfp.svg'}
-                      alt={comment.user.name}
-                      fill
-                      className="rounded-full object-cover"
-                    />
-                    {comment.user.verified && (
-                      <div className="absolute -bottom-1 -right-1 bg-[#4F3E9E] rounded-full p-0.5">
-                        <svg
-                          width="8"
-                          height="8"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
-                            stroke="white"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center mb-1">
-                      <span className="font-semibold text-sm mr-2">
-                        {comment.user.name}
-                      </span>
-                      <span className="text-xs text-muted-foreground">
-                        {comment.timestamp}
-                      </span>
-                    </div>
-                    <p className="text-sm mb-2">{comment.content}</p>
-
-                    {comment.references && comment.references.length > 0 && (
-                      <div className="bg-gray-50 p-2 rounded-md text-xs mb-2">
-                        <p className="font-medium text-gray-700 mb-1">
-                          References:
-                        </p>
-                        {comment.references.map((ref) => (
-                          <a
-                            key={ref.id}
-                            href={ref.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-[#4F3E9E] hover:underline block"
+          <Card className="mb-3">
+            <CardContent className="p-4">
+              {post.comments.map((comment, index) => (
+                <div key={comment.id}>
+                  {index > 0 && <div className=" my-4"></div>}
+                  <div className="flex items-start mt-1">
+                    <div className="relative h-8 w-8 mr-3 mt-1">
+                      <Image
+                        src={'/Default_pfp.svg'}
+                        alt={comment.user.name}
+                        fill
+                        className="rounded-full object-cover"
+                      />
+                      {comment.user.verified && (
+                        <div className="absolute -bottom-1 -right-1 bg-[#4F3E9E] rounded-full p-0.5">
+                          <svg
+                            width="8"
+                            height="8"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
                           >
-                            {ref.title}
-                          </a>
-                        ))}
+                            <path
+                              d="M9 12L11 14L15 10M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z"
+                              stroke="white"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            />
+                          </svg>
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center mb-1">
+                        <span className="font-semibold text-sm mr-2">
+                          {comment.user.name}
+                        </span>
+                        <span className="text-xs text-muted-foreground">
+                          {comment.timestamp}
+                        </span>
                       </div>
-                    )}
+                      <p className="text-sm mb-2">{comment.content}</p>
 
-                    <div className="flex items-center text-xs text-gray-500">
-                      <button className="flex items-center mr-3 hover:text-[#4F3E9E]">
-                        <Flag className="h-3 w-3 mr-1 scale-x-[-1]" />
-                        <span>{comment.stats.upvotes}</span>
-                      </button>
-                      <button className="flex items-center mr-3 hover:text-[#4F3E9E]">
-                        <Flag className="h-3 w-3 mr-1" />
-                        <span>{comment.stats.downvotes}</span>
-                      </button>
-                      <button className="flex items-center mr-3 hover:text-[#4F3E9E]">
-                        <MessageSquare className="h-3 w-3 mr-1" />
-                        <span>Reply</span>
-                      </button>
-                      <button className="flex items-center hover:text-[#4F3E9E]">
-                        <Share2 className="h-3 w-3 mr-1" />
-                        <span>Share</span>
-                      </button>
+                      {comment.references && comment.references.length > 0 && (
+                        <div className="bg-gray-50 p-2 rounded-md text-xs mb-2">
+                          <p className="font-medium text-gray-700 mb-1">
+                            References:
+                          </p>
+                          {comment.references.map((ref) => (
+                            <a
+                              key={ref.id}
+                              href={ref.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[#4F3E9E] hover:underline block"
+                            >
+                              {ref.title}
+                            </a>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="flex items-center text-xs text-gray-500">
+                        <button className="flex items-center mr-3 hover:text-[#4F3E9E]">
+                          <Flag className="h-3 w-3 mr-1 scale-x-[-1]" />
+                          <span>{comment.stats.upvotes}</span>
+                        </button>
+                        <button className="flex items-center mr-3 hover:text-[#4F3E9E]">
+                          <Flag className="h-3 w-3 mr-1" />
+                          <span>{comment.stats.downvotes}</span>
+                        </button>
+                        <button className="flex items-center mr-3 hover:text-[#4F3E9E]">
+                          <MessageSquare className="h-3 w-3 mr-1" />
+                          <span>Reply</span>
+                        </button>
+                        <button className="flex items-center hover:text-[#4F3E9E]">
+                          <Share2 className="h-3 w-3 mr-1" />
+                          <span>Share</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          ))
+              ))}
+            </CardContent>
+          </Card>
         ) : (
           <p className="text-center text-gray-500 py-4">
             No comments yet. Be the first to comment!
