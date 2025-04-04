@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint . --ext .ts,.tsx -c .eslintrc.json --fix"
+    "lint": "eslint . -c .eslintrc.json --fix"
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^2.1.6",
