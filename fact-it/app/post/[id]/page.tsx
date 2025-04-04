@@ -10,9 +10,9 @@ type PostPageProps = {
   };
 };
 
-// ⬇ Force params to be a normal object, NOT a Promise
+// ⬇ No need to await params
 export default async function PostPage({ params }: PostPageProps) {
-  const { id } = await params;
+  const { id } = params; // Treat params as a plain object
   const post = await getPostCardById(id);
 
   if (!post) {
