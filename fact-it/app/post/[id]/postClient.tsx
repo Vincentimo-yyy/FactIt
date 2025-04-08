@@ -44,7 +44,7 @@ export default function PostClient({ postData }: { postData: PostData }) {
   };
 
   return (
-    <div className="flex items-center bg-primary-foreground p-1 rounded-full ">
+    <div className="flex items-center bg-primary-foreground rounded-full ">
       <button
         className={cn('flex items-center mr-1', upvoted)}
         onClick={handleUpvote}
