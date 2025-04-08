@@ -1,6 +1,6 @@
 'use client';
 import { MessagesSquare } from 'lucide-react';
-import { useScrollFocus } from './scrollFocusProvider';
+import { useScrollFocus } from './comment-entry';
 
 export default function CommentButton() {
   const { focusInput } = useScrollFocus();

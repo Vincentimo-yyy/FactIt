@@ -9,7 +9,7 @@ type ScrollFocusContextType = {
 };
 
 const ScrollFocusContext = createContext<ScrollFocusContextType | null>(null);
-export default function ScrollFocusProvider({
+export default function CommentEntry({
   children,
 }: {
   children: React.ReactNode;
@@ -27,7 +27,7 @@ export default function ScrollFocusProvider({
       {children}
       {/* Comment input */}
       <Card>
-        <CardContent className="p-4">
+        <CardContent className="">
           <div className="flex items-start">
             <div className="relative h-8 w-8 mr-3">
               <Image
@@ -41,7 +41,7 @@ export default function ScrollFocusProvider({
               <textarea
                 ref={inputRef}
                 placeholder="Write a comment..."
-                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4F3E9E] min-h-[80px] text-sm"
+                className="w-full p-3 border rounded-lg focus:outline-none focus:ring-1 focus:ring-[#4F3E9E] h-[100px] text-sm resize-none"
               ></textarea>
               <div className="flex justify-end mt-2">
                 <button className="px-4 py-2 bg-secondary text-white rounded-lg text-sm">

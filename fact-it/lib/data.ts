@@ -43,7 +43,38 @@ export interface Comment {
     shares: number;
   };
   timestamp: string;
+  parentId?: string; // Optional parent ID for replies to comments
+  replies?: string[]; // Array of reply IDs
 }
+
+export interface Reply {
+  id: string;
+  user: {
+    name: string;
+    avatar: string;
+    verified: boolean;
+  };
+  level: number;
+  content: string;
+  references: {
+    id: number;
+    title: string;
+    url: string;
+  }[];
+  stats: {
+    upvotes: number;
+    downvotes: number;
+    comments: number;
+    shares: number;
+  };
+  timestamp: string;
+  parentId: string; // ID of the parent comment or reply
+}
+
+// Define a recursive type for the comment tree
+export type CommentTreeItem = (Comment | Reply) & {
+  children?: CommentTreeItem[];
+};
 
 const postCards = [
   {
@@ -103,6 +134,7 @@ const postCards = [
           shares: 5,
         },
         timestamp: '45 minutes ago',
+        replies: ['r1', 'r2'],
       },
       {
         id: 'c2',
@@ -145,6 +177,7 @@ const postCards = [
           shares: 7,
         },
         timestamp: '1.5 hours ago',
+        replies: ['r4'],
       },
       {
         id: 'c8',
@@ -408,6 +441,140 @@ const postCards = [
   },
 ];
 
+// Add replies data to simulate a database
+const replies: Record<string, Reply> = {
+  r1: {
+    id: 'r1',
+    user: {
+      name: 'John Smith',
+      avatar: '/placeholder.svg?height=40&width=40',
+      verified: false,
+    },
+    level: 1,
+    content: 'I agree with Maria. The rule of law is fundamental to democracy.',
+    references: [],
+    stats: {
+      upvotes: 24,
+      downvotes: 3,
+      comments: 2,
+      shares: 1,
+    },
+    timestamp: '30 minutes ago',
+    parentId: 'c1',
+  },
+  r2: {
+    id: 'r2',
+    user: {
+      name: 'Emily Chen',
+      avatar: '/placeholder.svg?height=40&width=40',
+      verified: true,
+    },
+    level: 1,
+    content:
+      'This is particularly important in countries with a history of authoritarian rule.',
+    references: [
+      {
+        id: 1,
+        title: 'Democracy Index',
+        url: 'https://www.example.com/democracy-index',
+      },
+    ],
+    stats: {
+      upvotes: 18,
+      downvotes: 2,
+      comments: 1,
+      shares: 0,
+    },
+    timestamp: '25 minutes ago',
+    parentId: 'c1',
+  },
+  r3: {
+    id: 'r3',
+    user: {
+      name: 'Michael Wong',
+      avatar: '/placeholder.svg?height=40&width=40',
+      verified: false,
+    },
+    level: 2,
+    content:
+      'The challenge is enforcing these principles consistently across different contexts.',
+    references: [],
+    stats: {
+      upvotes: 12,
+      downvotes: 1,
+      comments: 0,
+      shares: 0,
+    },
+    timestamp: '15 minutes ago',
+    parentId: 'r1',
+  },
+  r4: {
+    id: 'r4',
+    user: {
+      name: 'Sarah Johnson',
+      avatar: '/placeholder.svg?height=40&width=40',
+      verified: false,
+    },
+    level: 1,
+    content:
+      'I think we need to be careful about media bias, but this report seems well-sourced.',
+    references: [],
+    stats: {
+      upvotes: 31,
+      downvotes: 4,
+      comments: 2,
+      shares: 1,
+    },
+    timestamp: '1 hour ago',
+    parentId: 'c3',
+  },
+  r5: {
+    id: 'r5',
+    user: {
+      name: 'David Park',
+      avatar: '/placeholder.svg?height=40&width=40',
+      verified: true,
+    },
+    level: 2,
+    content:
+      "I've cross-referenced this with other sources and the facts seem accurate.",
+    references: [
+      {
+        id: 1,
+        title: 'Fact Check Report',
+        url: 'https://www.example.com/fact-check',
+      },
+    ],
+    stats: {
+      upvotes: 22,
+      downvotes: 1,
+      comments: 1,
+      shares: 0,
+    },
+    timestamp: '45 minutes ago',
+    parentId: 'r4',
+  },
+  r6: {
+    id: 'r6',
+    user: {
+      name: 'Lisa Rodriguez',
+      avatar: '/placeholder.svg?height=40&width=40',
+      verified: false,
+    },
+    level: 3,
+    content: 'Thanks for doing that research, David. Very helpful context.',
+    references: [],
+    stats: {
+      upvotes: 15,
+      downvotes: 0,
+      comments: 0,
+      shares: 0,
+    },
+    timestamp: '30 minutes ago',
+    parentId: 'r5',
+  },
+};
+
 // Updated function to get all post cards with their comments
 export function getPostCards(): PostCard[] {
   return postCards;
@@ -422,4 +589,53 @@ export function getPostCardById(id: string) {
 export function getCommentsForPost(postId: string) {
   const post = getPostCardById(postId);
   return post ? post.comments : [];
+}
+
+// New function to get a reply by ID
+export function getReplyById(replyId: string): Reply | undefined {
+  return replies[replyId];
+}
+
+// New function to get all replies for a specific comment or reply
+export function getRepliesForItem(itemId: string): Reply[] {
+  // Get direct replies
+  return Object.values(replies).filter((reply) => reply.parentId === itemId);
+}
+
+// New function to build a nested comment tree
+export function buildCommentTree(postId: string): CommentTreeItem[] {
+  const comments = getCommentsForPost(postId);
+
+  // Function to recursively get replies
+  const getNestedReplies = (
+    parentId: string,
+    level: number,
+  ): CommentTreeItem[] => {
+    const directReplies = getRepliesForItem(parentId);
+
+    return directReplies.map((reply) => {
+      // Set the correct level
+      const replyWithLevel = { ...reply, level };
+
+      // Get nested replies for this reply
+      const nestedReplies = getNestedReplies(reply.id, level + 1);
+
+      if (nestedReplies.length > 0) {
+        return { ...replyWithLevel, children: nestedReplies };
+      }
+
+      return replyWithLevel;
+    });
+  };
+
+  // Build the tree
+  return comments.map((comment) => {
+    const replies = getNestedReplies(comment.id, 1);
+
+    if (replies.length > 0) {
+      return { ...comment, children: replies };
+    }
+
+    return comment;
+  });
 }
