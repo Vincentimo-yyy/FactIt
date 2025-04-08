@@ -1,8 +1,9 @@
 import { getPostCardById } from '@/lib/data';
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
-import { Flag, MessageSquare, Share2 } from 'lucide-react';
+import { Flag, MessagesSquare, Share2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import PostClient from './postClient';
 
 // ⬇ No need to await params
 export default async function PostPage({
@@ -11,7 +12,7 @@ export default async function PostPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const post = await getPostCardById(id);
+  const post = getPostCardById(id);
 
   if (!post) {
     return (
@@ -155,23 +156,10 @@ export default async function PostPage({
             {/* Interaction buttons */}
             <div className="flex items-center text-sm text-gray-500 justify-between">
               <div className="flex items-center space-x-2">
-                <div className="flex items-center space-x-4 bg-primary-foreground p-1 rounded-full mr-2">
-                  <button className="flex items-center mr-1">
-                    <div className="flex items-center justify-center h-8 w-8 rounded-2xl group hover:bg-[#efecff]">
-                      <Flag className="h-5 w-5 mr-1 scale-x-[-1] group-hover:stroke-green-600" />
-                    </div>
-                    <span>{post.stats.upvotes - post.stats.downvotes}</span>
-                  </button>
-                  <button className="flex items-center">
-                    <div className="flex items-center justify-center h-8 w-8 rounded-2xl group hover:bg-[#efecff]">
-                      <Flag className="h-5 w-5 group-hover:stroke-red-600" />
-                    </div>
-                  </button>
+                <div className="flex items-center  bg-primary-foreground p-1 rounded-full">
+                  <PostClient postData={post} />
                 </div>
 
-                <button className="flex items-center mr-2 bg-primary-foreground p-2 rounded-full hover:bg-[#efecff]">
-                  <MessageSquare className="h-5 w-5 mr-1" />
-                </button>
                 <button className="flex items-center bg-primary-foreground p-2 rounded-full mr-2 hover:bg-[#efecff]">
                   <Share2 className="h-4 w-4 mr-1" />
                 </button>
@@ -264,7 +252,7 @@ export default async function PostPage({
                           <span>{comment.stats.downvotes}</span>
                         </button>
                         <button className="flex items-center mr-3 hover:text-[#4F3E9E]">
-                          <MessageSquare className="h-3 w-3 mr-1" />
+                          <MessagesSquare className="h-3 w-3 mr-1" />
                           <span>Reply</span>
                         </button>
                         <button className="flex items-center hover:text-[#4F3E9E]">
