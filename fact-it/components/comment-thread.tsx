@@ -2,18 +2,13 @@
 
 import { Card, CardContent } from '@/components/ui/card';
 import { CommentItem } from './comment-item';
-import type { Comment, Reply } from '@/lib/data';
+import type { CommentTreeItem } from '@/lib/data';
+import { useComments } from './comment-context';
 
-// Define a recursive type that can handle nested comments and replies
-type CommentTreeItem = (Comment | Reply) & {
-  children?: CommentTreeItem[];
-};
+export function CommentThread() {
+  // Get comments from context
+  const { comments } = useComments();
 
-type CommentThreadProps = {
-  comments: CommentTreeItem[];
-};
-
-export function CommentThread({ comments }: CommentThreadProps) {
   // Recursive function to render a comment and its replies
   const renderCommentWithReplies = (item: CommentTreeItem) => {
     return (

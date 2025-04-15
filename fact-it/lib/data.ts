@@ -5,6 +5,7 @@ export interface PostCard {
     avatar: string;
     verified: boolean;
   };
+
   tags: string[];
   credibilityScore: number;
   headline: string;
@@ -23,6 +24,7 @@ export interface PostCard {
   timestamp: string;
 }
 
+// Update the Comment interface to include a type field
 export interface Comment {
   id: string;
   user: {
@@ -30,12 +32,18 @@ export interface Comment {
     avatar: string;
     verified: boolean;
   };
+  type: 'comment' | 'redflag' | 'greenflag'; // Type to distinguish between a regular comment, red flag justification, or green flag justification
   content: string;
   references: {
     id: number;
     title: string;
     url: string;
   }[];
+  // Optional field to reference specific parts of the original post
+  postReference?: {
+    text: string;
+    position: string; // Could be paragraph number or text snippet
+  };
   stats: {
     upvotes: number;
     downvotes: number;
@@ -43,10 +51,11 @@ export interface Comment {
     shares: number;
   };
   timestamp: string;
-  parentId?: string; // Optional parent ID for replies to comments
-  replies?: string[]; // Array of reply IDs
+  parentId?: string;
+  replies?: string[];
 }
 
+// Update the Reply interface to also include a type field
 export interface Reply {
   id: string;
   user: {
@@ -55,12 +64,18 @@ export interface Reply {
     verified: boolean;
   };
   level: number;
+  type: 'comment' | 'redflag' | 'greenflag'; // Same types as Comment
   content: string;
   references: {
     id: number;
     title: string;
     url: string;
   }[];
+  // Optional field to reference specific parts of the parent comment or post
+  postReference?: {
+    text: string;
+    position: string;
+  };
   stats: {
     upvotes: number;
     downvotes: number;
@@ -68,7 +83,7 @@ export interface Reply {
     shares: number;
   };
   timestamp: string;
-  parentId: string; // ID of the parent comment or reply
+  parentId: string;
 }
 
 // Define a recursive type for the comment tree
@@ -76,6 +91,7 @@ export type CommentTreeItem = (Comment | Reply) & {
   children?: CommentTreeItem[];
 };
 
+// Update the existing postCards array to include different comment types
 const postCards = [
   {
     id: '1',
@@ -118,13 +134,24 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: true,
         },
+        type: 'greenflag', // Changed to greenflag
         content:
-          'This is concerning news. The rule of law must be respected by everyone, including former presidents.',
+          'This reporting is accurate and consistent with multiple verified sources. The Philippine National Police has officially confirmed these details in their press briefing.',
+        postReference: {
+          // Added reference to specific text
+          text: 'A Philippine general says that ex-Philippine President Rodrigo Duterte threatened him with lawsuits',
+          position: 'headline',
+        },
         references: [
           {
             id: 1,
-            title: 'Rule of Law Index',
-            url: 'https://www.example.com/rule-of-law-index',
+            title: 'PNP Official Statement',
+            url: 'https://www.example.com/pnp-statement',
+          },
+          {
+            id: 2,
+            title: 'Video of Police Press Conference',
+            url: 'https://www.example.com/press-conference-video',
           },
         ],
         stats: {
@@ -143,9 +170,25 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: false,
         },
+        type: 'redflag', // Changed to redflag
         content:
-          "I'm not surprised by his reaction. His administration was known for similar behavior.",
-        references: [],
+          "I question the accuracy of this report. The quote 'you have to kill me to bring me to jail' appears to be sensationalized and lacks proper context. I've reviewed the full transcript and this seems to be taken out of context.",
+        postReference: {
+          text: "'you have to kill me to bring me to jail.'",
+          position: 'quote',
+        },
+        references: [
+          {
+            id: 1,
+            title: 'Full Transcript of Encounter',
+            url: 'https://www.example.com/full-transcript',
+          },
+          {
+            id: 2,
+            title: 'Analysis of Media Coverage',
+            url: 'https://www.example.com/media-analysis',
+          },
+        ],
         stats: {
           upvotes: 45,
           downvotes: 23,
@@ -161,6 +204,7 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: true,
         },
+        type: 'comment', // Regular comment
         content:
           'We need to wait for all the facts before jumping to conclusions. The media often sensationalizes these stories.',
         references: [
@@ -186,9 +230,25 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: false,
         },
+        type: 'greenflag', // Changed to greenflag
         content:
-          'This is just another distraction from real issues. We should focus on policies, not personalities.',
-        references: [],
+          'I can confirm this information is accurate. I work with the judicial system in the Philippines and these details match our official records. The refusal to be fingerprinted is documented in the official arrest report.',
+        postReference: {
+          text: 'Duterte refused fingerprinting',
+          position: 'headline',
+        },
+        references: [
+          {
+            id: 1,
+            title: 'Official Arrest Documentation',
+            url: 'https://www.example.com/arrest-documentation',
+          },
+          {
+            id: 2,
+            title: 'Judicial System Records',
+            url: 'https://www.example.com/judicial-records',
+          },
+        ],
         stats: {
           upvotes: 67,
           downvotes: 18,
@@ -234,6 +294,7 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: false,
         },
+        type: 'comment', // Regular comment
         content:
           "Can't wait for this movie! The last few Marvel films have been incredible.",
         references: [],
@@ -252,13 +313,23 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: true,
         },
+        type: 'greenflag', // Changed to greenflag
         content:
-          "I heard they're bringing back some fan-favorite characters for this one. The casting choices look promising!",
+          'As someone who works in the film industry in Atlanta, I can confirm this information is accurate. Several crew members I know have already been hired for this production and pre-production work has begun.',
+        postReference: {
+          text: 'begin production in Atlanta next month',
+          position: 'description',
+        },
         references: [
           {
             id: 1,
-            title: 'Entertainment Weekly',
-            url: 'https://www.example.com/marvel-casting-news',
+            title: 'Georgia Film Office Production Schedule',
+            url: 'https://www.example.com/georgia-film-schedule',
+          },
+          {
+            id: 2,
+            title: 'Atlanta Film Industry Newsletter',
+            url: 'https://www.example.com/atlanta-film-newsletter',
           },
         ],
         stats: {
@@ -276,6 +347,7 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: false,
         },
+        type: 'comment', // Regular comment
         content:
           'The filming location is perfect. Atlanta has great tax incentives for film production and amazing studios.',
         references: [
@@ -300,9 +372,25 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: true,
         },
+        type: 'redflag', // Changed to redflag
         content:
-          "I'm getting tired of superhero movies. They all follow the same formula at this point.",
-        references: [],
+          "This information is misleading. While pre-production may be starting, actual filming is scheduled for at least two months from now according to Marvel's official production timeline. I've worked on previous Marvel projects and their timelines are strictly controlled.",
+        postReference: {
+          text: 'begin production in Atlanta next month',
+          position: 'description',
+        },
+        references: [
+          {
+            id: 1,
+            title: 'Marvel Studios Production Schedule',
+            url: 'https://www.example.com/marvel-schedule',
+          },
+          {
+            id: 2,
+            title: 'Interview with Marvel Executive Producer',
+            url: 'https://www.example.com/producer-interview',
+          },
+        ],
         stats: {
           upvotes: 29,
           downvotes: 41,
@@ -354,13 +442,28 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: true,
         },
+        type: 'greenflag', // Changed to greenflag
         content:
-          'This is a significant advancement in the field. The implications for cryptography and secure communications are profound.',
+          "As a quantum physicist, I can verify the accuracy of this report. The MIT team's approach using topological qubits represents a genuine breakthrough in the field. Their published results in Nature have been peer-reviewed and validated by multiple independent research groups.",
+        postReference: {
+          text: 'Scientists at MIT have demonstrated a new quantum computing technique',
+          position: 'description',
+        },
         references: [
           {
             id: 1,
-            title: 'Quantum Cryptography Paper',
-            url: 'https://www.example.com/quantum-cryptography-implications',
+            title: 'Nature Journal Publication',
+            url: 'https://www.example.com/nature-quantum-paper',
+          },
+          {
+            id: 2,
+            title: 'Independent Verification by Caltech',
+            url: 'https://www.example.com/caltech-verification',
+          },
+          {
+            id: 3,
+            title: 'Quantum Computing Standards Committee Review',
+            url: 'https://www.example.com/qcsc-review',
           },
         ],
         stats: {
@@ -378,6 +481,7 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: false,
         },
+        type: 'comment', // Regular comment
         content:
           'Can someone explain how this affects everyday encryption? Will my banking apps need to be updated?',
         references: [],
@@ -396,13 +500,28 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: false,
         },
+        type: 'redflag', // Changed to redflag
         content:
-          "I'm skeptical about the timeline. We've been hearing about quantum computing breakthroughs for years, but practical applications remain elusive.",
+          "This headline is misleading and overstates the actual research findings. The MIT paper specifically states that practical applications are still 5-10 years away, and the technique has only been demonstrated in highly controlled laboratory conditions with significant limitations. The claim that it 'could revolutionize encryption' is premature and not supported by the actual research.",
+        postReference: {
+          text: 'could revolutionize encryption',
+          position: 'headline',
+        },
         references: [
           {
             id: 1,
-            title: 'Quantum Computing Challenges',
-            url: 'https://www.example.com/quantum-computing-challenges',
+            title: 'MIT Research Paper Limitations Section',
+            url: 'https://www.example.com/mit-paper-limitations',
+          },
+          {
+            id: 2,
+            title: 'Interview with Lead Researcher',
+            url: 'https://www.example.com/researcher-interview',
+          },
+          {
+            id: 3,
+            title: 'Quantum Computing Timeline Analysis',
+            url: 'https://www.example.com/quantum-timeline',
           },
         ],
         stats: {
@@ -420,6 +539,7 @@ const postCards = [
           avatar: '/placeholder.svg?height=40&width=40',
           verified: true,
         },
+        type: 'comment', // Regular comment
         content:
           'As someone working in cybersecurity, this is both exciting and concerning. We need to accelerate post-quantum cryptography standards.',
         references: [
@@ -441,7 +561,7 @@ const postCards = [
   },
 ];
 
-// Add replies data to simulate a database
+// Update some of the replies to include different types
 const replies: Record<string, Reply> = {
   r1: {
     id: 'r1',
@@ -451,8 +571,21 @@ const replies: Record<string, Reply> = {
       verified: false,
     },
     level: 1,
-    content: 'I agree with Maria. The rule of law is fundamental to democracy.',
-    references: [],
+    type: 'greenflag', // Changed to greenflag
+    content:
+      "I can further support this with evidence from my own sources. I'm a journalist who was present at the scene, and I personally witnessed the events described. The police report accurately documents what happened.",
+    references: [
+      {
+        id: 1,
+        title: 'My Eyewitness Account',
+        url: 'https://www.example.com/eyewitness-account',
+      },
+      {
+        id: 2,
+        title: 'Police Report Documentation',
+        url: 'https://www.example.com/police-report',
+      },
+    ],
     stats: {
       upvotes: 24,
       downvotes: 3,
@@ -470,13 +603,23 @@ const replies: Record<string, Reply> = {
       verified: true,
     },
     level: 1,
+    type: 'redflag', // Changed to redflag
     content:
-      'This is particularly important in countries with a history of authoritarian rule.',
+      "While I respect Maria's perspective, I believe there are inconsistencies in the police statement. The timeline presented doesn't match with other verified accounts, and some key details appear to be omitted.",
+    postReference: {
+      text: 'The Philippine National Police has officially confirmed these details',
+      position: 'comment reference',
+    },
     references: [
       {
         id: 1,
-        title: 'Democracy Index',
-        url: 'https://www.example.com/democracy-index',
+        title: 'Alternative Timeline Analysis',
+        url: 'https://www.example.com/timeline-analysis',
+      },
+      {
+        id: 2,
+        title: 'Witness Statements Compilation',
+        url: 'https://www.example.com/witness-statements',
       },
     ],
     stats: {
@@ -496,6 +639,7 @@ const replies: Record<string, Reply> = {
       verified: false,
     },
     level: 2,
+    type: 'comment', // Regular comment
     content:
       'The challenge is enforcing these principles consistently across different contexts.',
     references: [],
@@ -516,9 +660,21 @@ const replies: Record<string, Reply> = {
       verified: false,
     },
     level: 1,
+    type: 'greenflag', // Changed to greenflag
     content:
-      'I think we need to be careful about media bias, but this report seems well-sourced.',
-    references: [],
+      "I agree with Liza about waiting for facts, but I can confirm that this particular report is well-sourced. I've cross-referenced it with multiple independent news outlets and official statements.",
+    references: [
+      {
+        id: 1,
+        title: 'Cross-Reference Analysis',
+        url: 'https://www.example.com/cross-reference',
+      },
+      {
+        id: 2,
+        title: 'Media Verification Project',
+        url: 'https://www.example.com/media-verification',
+      },
+    ],
     stats: {
       upvotes: 31,
       downvotes: 4,
@@ -536,13 +692,23 @@ const replies: Record<string, Reply> = {
       verified: true,
     },
     level: 2,
+    type: 'redflag', // Changed to redflag
     content:
-      "I've cross-referenced this with other sources and the facts seem accurate.",
+      "I disagree with Sarah's assessment. While she claims to have cross-referenced the information, there are still significant discrepancies in the reporting. The original sources contain contradictory statements that haven't been addressed.",
+    postReference: {
+      text: "I've cross-referenced it with multiple independent news outlets",
+      position: 'comment reference',
+    },
     references: [
       {
         id: 1,
-        title: 'Fact Check Report',
-        url: 'https://www.example.com/fact-check',
+        title: 'Source Comparison Analysis',
+        url: 'https://www.example.com/source-comparison',
+      },
+      {
+        id: 2,
+        title: 'Contradictions Documentation',
+        url: 'https://www.example.com/contradictions',
       },
     ],
     stats: {
@@ -562,6 +728,7 @@ const replies: Record<string, Reply> = {
       verified: false,
     },
     level: 3,
+    type: 'comment', // Regular comment
     content: 'Thanks for doing that research, David. Very helpful context.',
     references: [],
     stats: {
@@ -577,18 +744,28 @@ const replies: Record<string, Reply> = {
 
 // Updated function to get all post cards with their comments
 export function getPostCards(): PostCard[] {
-  return postCards;
+  try {
+    return postCards;
+  } catch (error) {
+    console.error('Error getting post cards:', error);
+    return [];
+  }
 }
 
 // Updated function to get a post card by ID with its comments
 export function getPostCardById(id: string) {
-  return postCards.find((post) => post.id === id);
+  try {
+    return postCards.find((post) => post.id === id);
+  } catch (error) {
+    console.error(`Error getting post card by ID ${id}:`, error);
+    return null;
+  }
 }
 
 // New function to get comments for a specific post
-export function getCommentsForPost(postId: string) {
+export function getCommentsForPost(postId: string): Comment[] {
   const post = getPostCardById(postId);
-  return post ? post.comments : [];
+  return post ? (post.comments as Comment[]) : [];
 }
 
 // New function to get a reply by ID
@@ -604,38 +781,59 @@ export function getRepliesForItem(itemId: string): Reply[] {
 
 // New function to build a nested comment tree
 export function buildCommentTree(postId: string): CommentTreeItem[] {
-  const comments = getCommentsForPost(postId);
+  try {
+    const comments = getCommentsForPost(postId);
 
-  // Function to recursively get replies
-  const getNestedReplies = (
-    parentId: string,
-    level: number,
-  ): CommentTreeItem[] => {
-    const directReplies = getRepliesForItem(parentId);
+    // Function to recursively get replies
+    const getNestedReplies = (
+      parentId: string,
+      level: number,
+    ): CommentTreeItem[] => {
+      try {
+        const directReplies = getRepliesForItem(parentId);
 
-    return directReplies.map((reply) => {
-      // Set the correct level
-      const replyWithLevel = { ...reply, level };
+        return directReplies.map((reply) => {
+          // Set the correct level
+          const replyWithLevel = { ...reply, level };
 
-      // Get nested replies for this reply
-      const nestedReplies = getNestedReplies(reply.id, level + 1);
+          // Get nested replies for this reply
+          const nestedReplies = getNestedReplies(reply.id, level + 1);
 
-      if (nestedReplies.length > 0) {
-        return { ...replyWithLevel, children: nestedReplies };
+          if (nestedReplies.length > 0) {
+            return { ...replyWithLevel, children: nestedReplies };
+          }
+
+          return replyWithLevel;
+        });
+      } catch (error) {
+        console.error(
+          `Error getting nested replies for parent ${parentId}:`,
+          error,
+        );
+        return [];
+      }
+    };
+
+    // Build the tree
+    return comments.map((comment) => {
+      // Ensure comment has all required properties to satisfy CommentTreeItem
+      const commentItem: CommentTreeItem = {
+        ...comment,
+        // Add any missing properties that might be required by CommentTreeItem
+        parentId: comment.parentId || '', // Provide default value if missing
+        type: comment.type || 'comment', // Ensure type is defined
+      };
+
+      const replies = getNestedReplies(comment.id, 1);
+
+      if (replies.length > 0) {
+        return { ...commentItem, children: replies };
       }
 
-      return replyWithLevel;
+      return commentItem;
     });
-  };
-
-  // Build the tree
-  return comments.map((comment) => {
-    const replies = getNestedReplies(comment.id, 1);
-
-    if (replies.length > 0) {
-      return { ...comment, children: replies };
-    }
-
-    return comment;
-  });
+  } catch (error) {
+    console.error(`Error building comment tree for post ${postId}:`, error);
+    return [];
+  }
 }

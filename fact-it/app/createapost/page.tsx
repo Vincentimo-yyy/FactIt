@@ -22,6 +22,10 @@ export default function CreatePost() {
   const [selectedCommunity, setSelectedCommunity] =
     useState('Select a Community');
 
+  const handlePost = () => {
+    // Handle post creation logic here
+  };
+
   return (
     <div className="max-w-3xl mx-auto p-6">
       {/* Header */}
@@ -133,7 +137,10 @@ export default function CreatePost() {
           <button className="px-4 py-2 bg-secondary text-white rounded-2xl">
             Save as draft
           </button>
-          <button className="px-4 py-2 bg-secondary opacity-50 text-white rounded-2xl">
+          <button
+            onClick={handlePost}
+            className="px-4 py-2 bg-secondary opacity-50 text-white rounded-2xl"
+          >
             Post
           </button>
         </div>

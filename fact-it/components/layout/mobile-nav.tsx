@@ -21,7 +21,7 @@ export function MobileNav() {
         <span>Communities</span>
       </Link>
       <Link
-        href="/create"
+        href="/createapost"
         className="flex flex-col items-center justify-center text-xs"
       >
         <PlusCircle className="h-5 w-5 mb-1" />

@@ -8,6 +8,7 @@ import { RightSidebar } from '@/components/layout/right-sidebar';
 import { ChatProvider } from '@/components/chatcontext';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Analytics } from '@vercel/analytics/react';
+import { ErrorBoundary } from '@/components/error-boundary';
 
 export const metadata: Metadata = {
   title: 'Factit - A simple fact-checking app',
@@ -37,7 +38,13 @@ export default function RootLayout({
 
                 {/* Main Content */}
                 <main className="flex-1 min-w-0 p-4 md:px-8 overflow-y-auto">
-                  {children}
+                  <ErrorBoundary
+                    fallback={
+                      <div>Something went wrong. Please refresh the page.</div>
+                    }
+                  >
+                    {children}
+                  </ErrorBoundary>
                   <SpeedInsights />
                   <Analytics />
                 </main>

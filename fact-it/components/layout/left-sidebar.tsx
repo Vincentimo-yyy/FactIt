@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 import { useRouter } from 'next/navigation';
 
@@ -38,10 +39,6 @@ export function LeftSidebar() {
     { path: '/settings', label: 'Settings', icon: Settings },
   ];
 
-  const handleNavigation = (path: string) => {
-    setActiveRoute(path);
-    router.push(path);
-  };
   return (
     <div className="hidden md:block fixed top-14 left-0 w-80 h-[calc(100vh-3.5rem)] bg-background shadow-lg">
       <div className="flex h-full flex-col">
@@ -53,9 +50,10 @@ export function LeftSidebar() {
                 const Icon = item.icon;
 
                 return (
-                  <button
+                  <Link
                     key={item.path}
-                    onClick={() => handleNavigation(item.path)}
+                    href={item.path}
+                    onClick={() => setActiveRoute(item.path)}
                     className={`flex w-65 items-center rounded-md px-4 mx-4 py-2 ${
                       isActive ? 'bg-select' : 'hover:bg-muted'
                     }`}
@@ -68,7 +66,7 @@ export function LeftSidebar() {
                     >
                       {item.label}
                     </span>
-                  </button>
+                  </Link>
                 );
               })}
             </div>
