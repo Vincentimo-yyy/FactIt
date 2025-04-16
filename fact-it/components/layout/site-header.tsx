@@ -32,15 +32,24 @@ export function SiteHeader() {
   };
 
   const handleOpenChat = () => {
-    openChat({
-      id: '123',
-      name: message.sender,
-      messages: [
-        { sender: 'John', text: 'Hey there!' },
-        { sender: 'me', text: 'Hello!' },
-      ],
-      isMinimized: false,
-    });
+    // Make sure we have a valid message object
+    if (message) {
+      // Generate a unique ID for the chat
+      const chatId = `chat-${Date.now()}`;
+
+      openChat({
+        id: chatId,
+        name: message.sender,
+        messages: [
+          { sender: message.sender, text: message.lastMessage },
+          { sender: 'me', text: 'Hello! How can I help you?' },
+        ],
+        isMinimized: false,
+      });
+
+      // Close the messages dropdown after opening the chat
+      setIsMessagesOpen(false);
+    }
   };
 
   return (
@@ -147,7 +156,7 @@ export function SiteHeader() {
                 >
                   {/* Sender's Profile Picture - Using Next.js Image */}
                   <Image
-                    src={message.senderPhoto}
+                    src={message.senderPhoto || '/placeholder.svg'}
                     alt={message.sender}
                     width={40} // Set width and height
                     height={40}

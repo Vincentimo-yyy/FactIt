@@ -1,3 +1,5 @@
+'use client';
+
 import { useChat } from './chatcontext';
 import { X, Minus, Send } from 'lucide-react';
 import Image from 'next/image';
@@ -8,9 +10,18 @@ const FloatingChat = () => {
     useChat();
   const [message, setMessage] = useState<string>('');
 
+  console.log('FloatingChat rendering:', { openChats, minimizedChats });
+
   const handleSendMessage = (chatId: string) => {
     if (!message.trim()) return;
-    console.log(`Sending message to chat ID ${chatId}:`, message);
+
+    const updatedMessage = {
+      sender: 'me',
+      text: message,
+    };
+
+    console.log(`Sending message to chat ID ${chatId}:`, updatedMessage);
+
     setMessage('');
   };
 
