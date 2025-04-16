@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
+import { Facebook_Icon, Google_Icon } from '@/components/icons';
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -123,23 +124,13 @@ export default function SignupPage() {
             </div>
           </div>
 
-          <div className="mt-4 grid grid-cols-3 gap-2">
+          <div className="mt-4 grid grid-cols-2 gap-2">
             <button className="h-10 px-4 py-2 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors">
-              <svg width="20" height="20" fill="currentColor" className="mr-2">
-                <path d="M10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2Z"></path>
-              </svg>
+              <Google_Icon width="20" height="20" className="mr-2" />
               <span>Google</span>
             </button>
-            <button className="h-10 px-4 py-2 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors">
-              <svg width="20" height="20" fill="currentColor" className="mr-2">
-                <path d="M10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2Z"></path>
-              </svg>
-              <span>Apple</span>
-            </button>
-            <button className="h-10 px-4 py-2 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors">
-              <svg width="20" height="20" fill="currentColor" className="mr-2">
-                <path d="M10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2Z"></path>
-              </svg>
+            <button className="h-10 px-4 py-2 border space-x-2 border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors">
+              <Facebook_Icon />
               <span>Facebook</span>
             </button>
           </div>
