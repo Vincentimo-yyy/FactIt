@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Flag, Share2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import PostClient from './postClient';
-import CommentButton from '../../../components/comment-button';
+import CommentButton from '../../../../components/comment-button';
 import { CommentThread } from '@/components/comment-thread';
 import CommentEntry from '@/components/comment-entry';
 import { CommentProvider } from '@/components/comment-context'; // Add this import
