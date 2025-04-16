@@ -4,9 +4,41 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
 import { Facebook_Icon, Google_Icon } from '@/components/icons';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      router.push('/');
+    } catch (error) {
+      console.error('Login error:', error);
+    }
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)] w-[500px] items-center justify-center p-4">
@@ -19,7 +51,7 @@ export default function LoginPage() {
           <p className="text-muted-foreground">Log in to your account</p>
         </div>
 
-        <form className="space-y-4 px-4">
+        <form className="space-y-4 px-4" onSubmit={handleSubmit}>
           <div className="space-y-2">
             <label htmlFor="email" className="text-sm font-medium">
               Email
@@ -30,6 +62,9 @@ export default function LoginPage() {
               placeholder="name@example.com"
               className="h-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F3E9E] focus:border-transparent"
               required
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
             />
           </div>
 
@@ -52,6 +87,9 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 className="h-10 w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F3E9E] focus:border-transparent"
                 required
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
               />
               <button
                 type="button"

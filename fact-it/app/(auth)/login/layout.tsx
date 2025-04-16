@@ -17,9 +17,5 @@ export default function LoginLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className="font-arial antialiased bg-background">{children}</body>
-    </html>
-  );
+  return children;
 }

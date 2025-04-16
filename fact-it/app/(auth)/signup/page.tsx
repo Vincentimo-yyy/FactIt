@@ -4,9 +4,54 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
 import { Facebook_Icon, Google_Icon } from '@/components/icons';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  });
+
+  const router = useRouter();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+          },
+        },
+      });
+
+      if (error) {
+        throw error;
+      }
+
+      alert('Please check your email to confirm your account.');
+      router.push('/login');
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert('An error occurred during signup. Please try again.');
+    }
+  };
 
   return (
     <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center p-4">
@@ -19,7 +64,7 @@ export default function SignupPage() {
           <p className="text-muted-foreground">Create your account</p>
         </div>
 
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <label htmlFor="firstName" className="text-sm font-medium">
@@ -27,6 +72,9 @@ export default function SignupPage() {
               </label>
               <input
                 id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 placeholder="John"
                 className="h-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F3E9E] focus:border-transparent"
                 required
@@ -38,6 +86,9 @@ export default function SignupPage() {
               </label>
               <input
                 id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
                 placeholder="Doe"
                 className="h-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F3E9E] focus:border-transparent"
                 required
@@ -51,7 +102,10 @@ export default function SignupPage() {
             </label>
             <input
               id="email"
+              name="email"
               type="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="name@example.com"
               className="h-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F3E9E] focus:border-transparent"
               required
@@ -65,10 +119,14 @@ export default function SignupPage() {
             <div className="relative">
               <input
                 id="password"
+                name="password"
                 type={showPassword ? 'text' : 'password'}
+                value={formData.password}
+                onChange={handleChange}
                 placeholder="••••••••"
                 className="h-10 w-full px-3 py-2 pr-10 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#4F3E9E] focus:border-transparent"
                 required
+                minLength={8}
               />
               <button
                 type="button"
@@ -88,6 +146,7 @@ export default function SignupPage() {
               type="checkbox"
               id="terms"
               className="h-4 w-4 rounded border-gray-300 text-[#4F3E9E] focus:ring-[#4F3E9E]"
+              required
             />
             <label
               htmlFor="terms"
@@ -106,9 +165,9 @@ export default function SignupPage() {
 
           <button
             type="submit"
-            className="w-full h-10 bg-[#4F3E9E] text-white rounded-md hover:bg-[#4F3E9E]/90 transition-colors"
+            className="w-full h-10 bg-[#4F3E9E] text-white rounded-md hover:bg-[#4F3E9E]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Create account
+            Create Account
           </button>
         </form>
 
