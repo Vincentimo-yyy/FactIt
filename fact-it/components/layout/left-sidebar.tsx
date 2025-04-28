@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { signOut } from '@/lib/auth';
 
 import { useRouter } from 'next/navigation';
 
@@ -133,7 +134,10 @@ export function LeftSidebar() {
               </button>
             </div>
             <div className="space-y-1">
-              <button className="flex w-65 items-center rounded-md px-4 mx-4  py-2 hover:bg-muted">
+              <button
+                className="flex w-65 items-center rounded-md px-4 mx-4  py-2 hover:bg-muted"
+                onClick={signOut}
+              >
                 <LogOut className="h-5 w-5 mr-2 stroke-primary" />
                 <span className="text-primary">Logout</span>
               </button>

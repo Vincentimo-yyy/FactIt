@@ -71,3 +71,12 @@ export const signUpNewUser = async (
 
   return data;
 };
+
+export const signOut = async () => {
+  const supabase = createClient();
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error('Sign out error:', error);
+  }
+};
