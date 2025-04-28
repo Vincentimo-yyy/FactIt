@@ -4,8 +4,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
 import { Facebook_Icon, Google_Icon } from '@/components/icons';
-import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import { signUpNewUser } from '@/lib/auth';
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,22 +29,12 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            first_name: formData.firstName,
-            last_name: formData.lastName,
-          },
-        },
-      });
-
-      if (error) {
-        throw error;
-      }
-
+      await signUpNewUser(
+        formData.email,
+        formData.password,
+        formData.firstName,
+        formData.lastName,
+      );
       alert('Please check your email to confirm your account.');
       router.push('/login');
     } catch (error) {

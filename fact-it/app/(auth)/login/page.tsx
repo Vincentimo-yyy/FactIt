@@ -4,9 +4,12 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Eye, EyeOff } from 'lucide-react';
 import { Facebook_Icon, Google_Icon } from '@/components/icons';
-import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
-import { signInWithGoogle, signInWithFacebook } from '@/lib/auth';
+import {
+  signInWithGoogle,
+  signInWithFacebook,
+  signInWithEmail,
+} from '@/lib/auth';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -21,16 +24,7 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      const supabase = createClient();
-      const { error } = await supabase.auth.signInWithPassword({
-        email: formData.email,
-        password: formData.password,
-      });
-
-      if (error) {
-        throw error;
-      }
-
+      await signInWithEmail(formData.email, formData.password);
       router.push('/');
     } catch (error) {
       console.error('Login error:', error);
