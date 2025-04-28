@@ -1,4 +1,5 @@
 import { createClient } from '@/utils/supabase/client';
+import router from 'next/router';
 
 export const signInWithGoogle = async () => {
   const supabase = createClient();
@@ -75,6 +76,7 @@ export const signUpNewUser = async (
 export const signOut = async () => {
   const supabase = createClient();
   const { error } = await supabase.auth.signOut();
+  router.push('/login');
 
   if (error) {
     console.error('Sign out error:', error);
