@@ -6,6 +6,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Facebook_Icon, Google_Icon } from '@/components/icons';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
+import { signInWithGoogle, signInWithFacebook } from '@/lib/auth';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -122,11 +123,17 @@ export default function LoginPage() {
           </div>
 
           <div className="mt-4 grid grid-cols-2 justify-center gap-2">
-            <button className="h-10 px-2 py-2 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors">
+            <button
+              onClick={() => signInWithGoogle()}
+              className="h-10 px-2 py-2 border border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
               <Google_Icon width="20" height="20" className="mr-2" />
               <span> Google</span>
             </button>
-            <button className="h-10 px-2 py-2 border space-x-2 border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors">
+            <button
+              onClick={() => signInWithFacebook()}
+              className="h-10 px-2 py-2 border space-x-2 border-gray-300 rounded-md flex items-center justify-center hover:bg-gray-50 transition-colors"
+            >
               <Facebook_Icon />
               <span>Facebook</span>
             </button>
