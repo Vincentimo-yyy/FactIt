@@ -8,10 +8,22 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    const { error, data } = await supabase.auth.exchangeCodeForSession(code);
 
-    if (!error) {
+    if (!error && data?.session) {
       const response = NextResponse.redirect(`${origin}${next}`);
+      response.cookies.set('sb-access-token', data.session.access_token, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: true,
+      });
+      response.cookies.set('sb-refresh-token', data.session.refresh_token, {
+        path: '/',
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: true,
+      });
       return response;
     }
   }
