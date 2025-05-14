@@ -6,6 +6,9 @@ import { Eye, EyeOff } from 'lucide-react';
 import { Facebook_Icon, Google_Icon } from '@/components/icons';
 import { useRouter } from 'next/navigation';
 import { signUpNewUser } from '@/lib/auth';
+import { createClient } from '@/utils/supabase/client';
+
+const supabase = createClient();
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -29,14 +32,31 @@ export default function SignupPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await signUpNewUser(
+      const signUp = await signUpNewUser(
         formData.email,
         formData.password,
         formData.firstName,
         formData.lastName,
       );
       alert('Please check your email to confirm your account.');
-      router.push('/login');
+      router.push('/login'); // redirect to edit profile page instead of login page
+      let result;
+      // After successful signup, you can also insert user data into the 'users' table
+      if (signUp) {
+        const { data, error } = await supabase.from('users').insert({
+          name: formData.firstName + ' ' + formData.lastName,
+        });
+
+        if (error) {
+          console.error('Error inserting user data:', error);
+          alert(
+            'An error occurred while creating your profile. Please try again.',
+          );
+        } else {
+          result = data;
+          console.log('User data inserted successfully:', result);
+        }
+      }
     } catch (error) {
       console.error('Signup error:', error);
       alert('An error occurred during signup. Please try again.');
