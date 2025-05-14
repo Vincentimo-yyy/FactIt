@@ -45,31 +45,49 @@ export default function CreatePost() {
     setIsPosting(true);
 
     try {
-      const { error } = await supabase.from('posts').insert([
-        {
-          headline: title,
-          description: content,
-          references: references.map((ref, index) => ({
-            id: index + 1,
-            title: ref,
-            url: ref,
-          })),
-          timestamp: new Date().toISOString(),
-        },
-      ]);
+      // Insert the post into the posts table
+      const { data: post, error: postError } = await supabase
+        .from('posts')
+        .insert([
+          {
+            headline: title,
+            description: content,
+            timestamp: new Date().toISOString(),
+          },
+        ])
+        .select()
+        .single();
 
-      if (error) {
-        console.error('Error creating post:', error);
-        alert('Failed to create post. Please try again.');
-      } else {
-        alert('Post created successfully!');
-        setTitle('');
-        setContent('');
-        setReferences([]);
+      if (postError) {
+        console.error('Error creating post:', postError);
+        alert('Failed to create post.');
+        return;
       }
+
+      // Insert references into the references table
+      const referencesData = references.map((ref) => ({
+        post_id: post.id, // Link to the created post
+        title: ref,
+        url: ref,
+      }));
+
+      const { error: referencesError } = await supabase
+        .from('references')
+        .insert(referencesData);
+
+      if (referencesError) {
+        console.error('Error creating references:', referencesError);
+        alert('Failed to add references.');
+        return;
+      }
+
+      alert('Post created successfully!');
+      setTitle('');
+      setContent('');
+      setReferences([]);
     } catch (error) {
       console.error('Unexpected error:', error);
-      alert('An unexpected error occurred. Please try again.');
+      alert('An unexpected error occurred.');
     } finally {
       setIsPosting(false);
     }
