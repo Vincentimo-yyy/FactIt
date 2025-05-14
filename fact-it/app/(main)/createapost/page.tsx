@@ -45,11 +45,20 @@ export default function CreatePost() {
     setIsPosting(true);
 
     try {
+      const { data: userData, error: userError } =
+        await supabase.auth.getUser();
+      if (userError || !userData) {
+        console.error('Error fetching user:', userError);
+        alert('Failed to fetch user information. Please log in again.');
+        return;
+      }
+
       // Insert the post into the posts table
       const { data: post, error: postError } = await supabase
         .from('posts')
         .insert([
           {
+            user_id: userData.user.id,
             headline: title,
             description: content,
             timestamp: new Date().toISOString(),
