@@ -1,11 +1,20 @@
 'use client';
 
 import { FactCard } from '@/components/fact-card';
-import FloatingChat from '@/components/floatingchat';
-import { getPostCards } from '@/lib/data';
+import { getPostCards, type PostCard } from '@/lib/data';
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const posts = getPostCards();
+  const [posts, setPosts] = useState<PostCard[]>([]);
+
+  useEffect(() => {
+    async function fetchPosts() {
+      const fetchedPosts = await getPostCards();
+      setPosts(fetchedPosts);
+    }
+
+    fetchPosts();
+  }, []);
 
   return (
     <div className="max-w-3xl mx-auto overflow-auto">
@@ -14,10 +23,6 @@ export default function Home() {
         {posts.map((post) => (
           <FactCard key={post.id} post={post} />
         ))}
-      </div>
-
-      <div>
-        <FloatingChat />
       </div>
     </div>
   );
