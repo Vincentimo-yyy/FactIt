@@ -2,22 +2,13 @@
 import { cn } from '@/lib/utils';
 import { Flag } from 'lucide-react';
 import { useState } from 'react';
+import { PostCard } from '@/lib/data';
 
-interface PostData {
-  stats: {
-    upvotes: number;
-    downvotes: number;
-  };
-  headline: string;
-  description: string;
-  references: {
-    id: number;
-    title: string;
-    url: string;
-  }[];
+interface PostClientProps {
+  postData: PostCard;
 }
 
-export default function PostClient({ postData }: { postData: PostData }) {
+export default function PostClient({ postData }: PostClientProps) {
   const [upvoted, setUpvoted] = useState(false);
   const [downvoted, setDownvoted] = useState(false);
   const [upvoteCount, setUpvoteCount] = useState(postData.stats.upvotes);
@@ -31,7 +22,7 @@ export default function PostClient({ postData }: { postData: PostData }) {
   const [justificationText, setJustificationText] = useState('');
   const [selectedReference, setSelectedReference] = useState('');
   const [customReferences, setCustomReferences] = useState<
-    { id: number; title: string; url: string }[]
+    PostCard['references']
   >([]);
   const [newReferenceTitle, setNewReferenceTitle] = useState('');
   const [newReferenceUrl, setNewReferenceUrl] = useState('');
@@ -132,7 +123,7 @@ export default function PostClient({ postData }: { postData: PostData }) {
           <span>{upvoteCount - downvoteCount}</span>
         </button>
         <button
-          className={cn('flex items-center mr-1', upvoted)}
+          className={cn('flex items-center mr-1', downvoted)}
           onClick={handleDownvote}
         >
           <div className="flex items-center justify-center h-8 w-8 rounded-2xl group hover:bg-[#efecff]">
@@ -163,7 +154,6 @@ export default function PostClient({ postData }: { postData: PostData }) {
             </div>
 
             <div className="p-4">
-              {/* Reference selector */}
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">
                   Reference specific content from the post (optional):
@@ -183,7 +173,6 @@ export default function PostClient({ postData }: { postData: PostData }) {
                 </select>
               </div>
 
-              {/* Justification text */}
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">
                   {justificationType === 'greenflag'
@@ -199,7 +188,6 @@ export default function PostClient({ postData }: { postData: PostData }) {
                 ></textarea>
               </div>
 
-              {/* References section */}
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">
                   References from the post:

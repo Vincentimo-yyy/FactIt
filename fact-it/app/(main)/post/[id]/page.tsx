@@ -16,7 +16,7 @@ export default async function PostPage({
 }) {
   try {
     const { id } = await params;
-    const post = getPostCardById(id);
+    const post = await getPostCardById(id);
 
     if (!post) {
       return (
@@ -27,7 +27,7 @@ export default async function PostPage({
     }
 
     // Build the nested comment tree
-    const commentTree = buildCommentTree(id);
+    const commentTree = await buildCommentTree(id);
 
     const getScoreColor = (score: number) => {
       if (score >= 70) return 'bg-green-500';
@@ -49,7 +49,7 @@ export default async function PostPage({
                       <div className="flex items-center">
                         <div className="relative h-10 w-10 mr-3">
                           <Image
-                            src="/Default_pfp.svg"
+                            src={post.user.avatar || '/Default_pfp.svg'}
                             alt={post.user.name}
                             fill
                             className="rounded-full object-cover"
@@ -144,18 +144,13 @@ export default async function PostPage({
                     <div className="space-y-3">
                       {post.references.map((reference) => (
                         <div key={reference.id} className="text-sm">
-                          <div className="flex items-center mb-1">
-                            <span className="text-gray-700 font-medium">
-                              {reference.title}
-                            </span>
-                          </div>
                           <a
                             href={reference.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-[#4F3E9E] hover:underline break-all"
+                            className="text-blue-500 hover:underline"
                           >
-                            {reference.url}
+                            {reference.title}
                           </a>
                         </div>
                       ))}
@@ -165,7 +160,7 @@ export default async function PostPage({
                   {/* Interaction buttons */}
                   <div className="flex items-center text-sm text-gray-500 justify-between">
                     <div className="flex items-center space-x-2">
-                      <div className="flex items-center  bg-primary-foreground p-1 rounded-full">
+                      <div className="flex items-center bg-primary-foreground p-1 rounded-full">
                         <PostClient postData={post} />
                       </div>
 

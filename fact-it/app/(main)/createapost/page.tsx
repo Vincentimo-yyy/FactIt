@@ -1,4 +1,5 @@
 'use client';
+import { createClient } from '@/utils/supabase/client';
 import { useState } from 'react';
 import {
   Bold,
@@ -19,11 +20,59 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 export default function CreatePost() {
+  const supabase = createClient();
+  const [title, setTitle] = useState('');
+  const [content, setContent] = useState('');
+  const [references, setReferences] = useState<string[]>([]);
+  const [newReference, setNewReference] = useState('');
+  const [isPosting, setIsPosting] = useState(false);
   const [selectedCommunity, setSelectedCommunity] =
     useState('Select a Community');
 
-  const handlePost = () => {
-    // Handle post creation logic here
+  const handleAddReference = () => {
+    if (newReference.trim()) {
+      setReferences([...references, newReference]);
+      setNewReference('');
+    }
+  };
+
+  const handlePost = async () => {
+    if (!title.trim() || !content.trim()) {
+      alert('Title and content are required.');
+      return;
+    }
+
+    setIsPosting(true);
+
+    try {
+      const { error } = await supabase.from('posts').insert([
+        {
+          headline: title,
+          description: content,
+          references: references.map((ref, index) => ({
+            id: index + 1,
+            title: ref,
+            url: ref,
+          })),
+          timestamp: new Date().toISOString(),
+        },
+      ]);
+
+      if (error) {
+        console.error('Error creating post:', error);
+        alert('Failed to create post. Please try again.');
+      } else {
+        alert('Post created successfully!');
+        setTitle('');
+        setContent('');
+        setReferences([]);
+      }
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      alert('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsPosting(false);
+    }
   };
 
   return (
@@ -95,12 +144,16 @@ export default function CreatePost() {
             type="text"
             className="w-full px-4 py-1 text-2xl font-semibold focus:outline-none"
             placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
 
           {/* Post Content */}
           <textarea
             className="w-full h-40 px-4 focus:outline-none resize-none"
             placeholder="Write your post here..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
           ></textarea>
         </div>
 
@@ -111,7 +164,22 @@ export default function CreatePost() {
             type="text"
             placeholder="Enter your reference here..."
             className="w-full p-2 mt-1 border rounded-lg"
+            value={newReference}
+            onChange={(e) => setNewReference(e.target.value)}
           />
+          <button
+            onClick={handleAddReference}
+            className="mt-2 px-4 py-2 bg-secondary text-white rounded-lg"
+          >
+            Add Reference
+          </button>
+          <ul className="mt-2">
+            {references.map((ref, index) => (
+              <li key={index} className="text-sm text-gray-600">
+                {ref}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
@@ -139,9 +207,10 @@ export default function CreatePost() {
           </button>
           <button
             onClick={handlePost}
-            className="px-4 py-2 bg-secondary opacity-50 text-white rounded-2xl"
+            disabled={isPosting}
+            className="px-4 py-2 bg-secondary text-white rounded-2xl"
           >
-            Post
+            {isPosting ? 'Posting...' : 'Post'}
           </button>
         </div>
       </div>
