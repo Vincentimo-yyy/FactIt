@@ -46,6 +46,7 @@ export default function ExplorePage() {
 
   // Get all communities and posts
   const communities = getAllCommunities();
+  const posts = getPostCards();
 
   // Filter content based on search query and selected category
   useEffect(() => {
@@ -67,31 +68,25 @@ export default function ExplorePage() {
       return matchesSearch && matchesCategory;
     });
 
+    // Filter posts
+    const postsResult = posts.filter((post) => {
+      const matchesSearch =
+        searchQuery === '' ||
+        post.headline.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        post.description.toLowerCase().includes(searchQuery.toLowerCase());
+
+      const matchesCategory =
+        selectedCategory === 'all' ||
+        post.tags.some(
+          (tag) => tag.toLowerCase() === selectedCategory.toLowerCase(),
+        );
+
+      return matchesSearch && matchesCategory;
+    });
+
     setFilteredCommunities(communitiesResult);
-  }, [searchQuery, selectedCategory, communities]);
-
-  useEffect(() => {
-    async function fetchAndFilterPosts() {
-      const posts = await getPostCards();
-      const filtered = posts.filter((post) => {
-        const matchesSearch =
-          searchQuery === '' ||
-          post.headline.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          post.description.toLowerCase().includes(searchQuery.toLowerCase());
-
-        const matchesCategory =
-          selectedCategory === 'all' ||
-          post.tags.some(
-            (tag) => tag.toLowerCase() === selectedCategory.toLowerCase(),
-          );
-
-        return matchesSearch && matchesCategory;
-      });
-      setFilteredPosts(filtered);
-    }
-
-    fetchAndFilterPosts();
-  }, [searchQuery, selectedCategory]);
+    setFilteredPosts(postsResult);
+  }, [searchQuery, selectedCategory, communities, posts]);
 
   // Clear search query
   const clearSearch = () => {
